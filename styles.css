@@ -19,14 +19,15 @@ body {
     background-color: #f4f6f9;
     color: #333;
     line-height: 1.6;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
-    margin: 0 auto;
-    background-color: white;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    border-radius: 20px;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 header {
@@ -57,7 +58,6 @@ header {
 .user-icon {
     width: 40px;
     height: 40px;
-    background-color: rgba(255,255,255,0.2);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -67,9 +67,10 @@ header {
 
 .operations-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
     padding: 30px;
+    flex-grow: 1;
 }
 
 .operation {
@@ -77,21 +78,19 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 200px;
-    border-radius: var(--border-radius);
     position: relative;
     overflow: hidden;
     transition: transform 0.3s ease;
     cursor: pointer;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    border-radius: 10px;
 }
 
 .operation:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 .operation-icon {
-    font-size: 72px;
+    font-size: 12em;
     color: white;
     opacity: 0.2;
     position: absolute;
@@ -123,9 +122,10 @@ header {
 }
 
 footer {
+    color: white;
     text-align: right;
     padding: 15px;
-    background-color: #f9f9f9;
+    background-color: var(--color-primary);
 }
 
 footer img {
@@ -134,18 +134,19 @@ footer img {
 }
 
 @media (max-width: 600px) {
-    .container {
-        width: 100%;
+    .container{
+        width:100%;
         border-radius: 0;
+
     }
-    
+
     .operations-grid {
         grid-template-columns: 1fr;
-        gap: 15px;
+        gap:15px;
         padding: 20px;
     }
-    
-    .operation {
+
+    .operation{
         height: 150px;
     }
 }
