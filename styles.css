@@ -1,0 +1,151 @@
+:root {
+    --color-primary: #2C5FBC;
+    --color-soma: #4CAF50;
+    --color-subtracao: #F44336;
+    --color-multiplicacao: #2196F3;
+    --color-divisao: #FF9800;
+    --border-radius: 15px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 3px;
+    background-color: #f4f6f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+header {
+    background-color: var(--color-primary);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.greeting {
+    font-weight: 300;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.operations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 30px;
+}
+
+.operation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    border-radius: var(--border-radius);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.operation:hover {
+    transform: scale(1.05);
+}
+
+.operation-icon {
+    font-size: 72px;
+    color: white;
+    opacity: 0.2;
+    position: absolute;
+    z-index: 0;
+}
+
+.operation span {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    z-index: 1;
+    position: relative;
+}
+
+.soma {
+    background-color: var(--color-soma);
+}
+
+.subtracao {
+    background-color: var(--color-subtracao);
+}
+
+.multiplicacao {
+    background-color: var(--color-multiplicacao);
+}
+
+.divisao {
+    background-color: var(--color-divisao);
+}
+
+footer {
+    text-align: right;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+footer img {
+    max-width: 120px;
+    opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        border-radius: 0;
+    }
+    
+    .operations-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 20px;
+    }
+    
+    .operation {
+        height: 150px;
+    }
+}
