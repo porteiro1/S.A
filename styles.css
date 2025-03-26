@@ -129,8 +129,7 @@ footer {
 }
 
 footer img {
-    max-width: 120px;
-    opacity: 0.7;
+    max-width: 100px;
 }
 
 @media (max-width: 600px) {

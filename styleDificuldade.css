@@ -1,0 +1,154 @@
+:root {
+    --color-primary: #2C5FBC;
+    --color-soma: #4CAF50;
+    --color-subtracao: #F44336;
+    --color-multiplicacao: #2196F3;
+    --color-divisao: #FF9800;
+    --border-radius: 15px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 3px;
+    background-color: #f4f6f9;
+    color: #333;
+    line-height: 1.6;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    
+}
+
+header {
+    background-color: var(--color-primary);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.greeting {
+    font-weight: 300;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.voltar img{
+    max-width: 40px;
+    left: 12px;
+}
+
+.operations-grid {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 100vh; 
+    padding: 20px;
+}
+
+.operation {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 15px; 
+    transition: transform 0.3s ease;
+    height: 200px;
+    cursor: pointer;
+}
+
+.operation:hover {
+    transform: scale(1.02);
+}
+
+.operation-icon {
+    font-size: 12em;
+    color: white;
+    opacity: 0.2;
+    position: absolute;
+    z-index: 0;
+}
+
+.operation span {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    z-index: 1;
+    position: relative;
+}
+
+.facil {
+    background-color: var(--color-soma);
+}
+
+.medio {
+    background-color: var(--color-divisao);
+}
+
+.dificil {
+    background-color: var(--color-subtracao);
+}
+
+footer {
+    color: white;
+    text-align: right;
+    padding: 15px;
+    background-color: var(--color-primary);
+}
+
+footer img {
+    max-width: 100px;
+}
+
+@media (max-width: 600px) {
+    .container{
+        width:100%;
+        border-radius: 0;
+
+    }
+
+    .operations-grid {
+        grid-template-columns: 1fr;
+        gap:15px;
+        padding: 20px;
+    }
+
+    .operation{
+        height: 150px;
+    }
+}
