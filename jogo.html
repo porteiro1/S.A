@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathema Quest - Jogo das Maçãs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #2C5FBC;
+            --color-soma: #4CAF50;
+            --color-background: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-background);
+            letter-spacing: 3px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            background-color: var(--color-primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .game-area {
+            flex-grow: 1;
+            background-color: white;
+            margin: 20px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .game-board {
+            flex-grow: 1;
+            background-color: #87CEEB;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-board::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background-color: #f5f5dc;
+            z-index: 1;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            position: relative;
+            z-index: 2;
+            margin-top: 20px;
+        }
+
+        .bottom-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 20px;
+        }
+
+        .plate {
+            background-color: white;
+            border: 2px solid #888;
+            border-radius: 10px;
+            width: 200px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            overflow: auto;
+        }
+
+        .apple-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .apple {
+            width: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .apple:hover {
+            transform: scale(1.1);
+        }
+
+        .apple.dragging {
+            opacity: 0.5;
+        }
+
+        .operation {
+            font-size: 48px;
+            color: black;
+            z-index: 2;
+            position: relative;
+        }
+
+        .result {
+            font-size: 48px;
+            color: black;
+            z-index: 2;
+            position: relative;
+        }
+
+        .user-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 50%;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: var(--color-soma);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Mathema Quest</div>
+            <div class="user-section">
+                <span>Olá Estudante!</span>
+                <div class="user-icon"></div>
+            </div>
+        </header>
+
+        <div class="game-area">
+            <div class="game-board">
+                <div class="top-section">
+                    <div id="leftPlate" class="plate"></div>
+                    <div class="operation">+</div>
+                    <div id="rightPlate" class="plate"></div>
+                    <div class="operation">=</div>
+                    <div id="result" class="result">?</div>
+                </div>
+                <div class="bottom-section">
+                    <div id="appleContainer" class="apple-container"></div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button onclick="generateTarget()">Novo Desafio</button>
+                <button onclick="checkResult()">Verificar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let targetSum = 0;
+        let leftApples = 0;
+        let rightApples = 0;
+        const leftPlate = document.getElementById('leftPlate');
+        const rightPlate = document.getElementById('rightPlate');
+        const appleContainer = document.getElementById('appleContainer');
+        const resultDisplay = document.getElementById('result');
+
+        function generateTarget() {
+            targetSum = Math.floor(Math.random() * 10) + 1;
+            resultDisplay.textContent = targetSum;
+            resetGame();
+        }
+
+        function resetGame() {
+            leftPlate.innerHTML = '';
+            rightPlate.innerHTML = '';
+            leftApples = 0;
+            rightApples = 0;
+            appleContainer.innerHTML = '';
+            
+            // Gera 10 maçãs
+            for (let i = 0; i < 10; i++) {
+                const apple = document.createElement('img');
+                apple.src = 'https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/red-apple.png';
+                apple.classList.add('apple');
+                apple.draggable = true;
+                
+                apple.addEventListener('dragstart', dragStart);
+                apple.addEventListener('dragend', dragEnd);
+                
+                appleContainer.appendChild(apple);
+            }
+
+            // Configura os pratos para receberem maçãs
+            leftPlate.addEventListener('dragover', dragOver);
+            leftPlate.addEventListener('drop', dropLeft);
+            
+            rightPlate.addEventListener('dragover', dragOver);
+            rightPlate.addEventListener('drop', dropRight);
+        }
+
+        function dragStart(e) {
+            e.target.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', e.target.id);
+        }
+
+        function dragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+        }
+
+        function dropLeft(e) {
+            e.preventDefault();
+            const appleImg = document.querySelector('.dragging');
+            
+            if (appleImg) {
+                // Remove a maçã do container original
+                appleImg.remove();
+                
+                // Adiciona a maçã no prato esquerdo
+                leftPlate.appendChild(appleImg);
+                leftApples++;
+                
+                // Reconfigura os eventos para a maçã no prato
+                appleImg.addEventListener('click', () => removeAppleFromPlate(appleImg, leftPlate, 'left'));
+            }
+        }
+
+        function dropRight(e) {
+            e.preventDefault();
+            const appleImg = document.querySelector('.dragging');
+            
+            if (appleImg) {
+                // Remove a maçã do container original
+                appleImg.remove();
+                
+                // Adiciona a maçã no prato direito
+                rightPlate.appendChild(appleImg);
+                rightApples++;
+                
+                // Reconfigura os eventos para a maçã no prato
+                appleImg.addEventListener('click', () => removeAppleFromPlate(appleImg, rightPlate, 'right'));
+            }
+        }
+
+        function removeAppleFromPlate(apple, plate, plateType) {
+            // Remove a maçã do prato
+            plate.removeChild(apple);
+            
+            // Adiciona a maçã de volta ao container
+            appleContainer.appendChild(apple);
+            
+            // Decrementa o contador do prato correto
+            if (plateType === 'left') {
+                leftApples--;
+            } else {
+                rightApples--;
+            }
+        }
+
+        function checkResult() {
+            const expectedSum = targetSum;
+            const actualSum = leftApples + rightApples;
+
+            if (actualSum === expectedSum) {
+                alert('Parabéns! Você acertou! 🎉');
+            } else {
+                alert(`Ops! Você colocou ${leftApples} + ${rightApples} = ${actualSum} maçãs, mas o desafio era ${expectedSum} maçãs.`);
+            }
+        }
+
+        // Inicia o jogo com um primeiro desafio
+        generateTarget();
+    </script>
+</body>
+</html>
