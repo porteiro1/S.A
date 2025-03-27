@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mathema Quest - Jogo das Maçãs</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/jogoMacaSoma.css" />
-  </head>
+    <link rel="stylesheet" href="/css/jogoMacaSubtracao.css" />
+</head>
 <body>
     <div class="container">
         <div class="container">
@@ -31,32 +31,31 @@
               </div>
             </header>
             <div class="voltar">
-              <img src="/images/voltar.png" onclick="navegateTo('/html/dificuldade/dificuldadeSoma.html')" alt="voltar" />
+              <img src="/images/voltar.png" onclick="navegateTo('/html/dificuldade/dificuldadeSubtracao.html')" alt="voltar" />
             </div>
-        <div class="game-area">
-            <div class="game-board">
-                <div class="top-section">
-                    <div id="leftPlate" class="plate"></div>
-                    <div class="operation">+</div>
-                    <div id="rightPlate" class="plate"></div>
-                    <div class="operation">=</div>
-                    <div id="result" class="result">?</div>
-                </div>
-                <div class="bottom-section">
-                    <div id="appleContainer" class="apple-container"></div>
-                </div>
-            </div>
-            
-            <div class="actions">
-                <button onclick="generateTarget()">Novo Desafio</button>
-                <button onclick="checkResult()">Verificar</button>
-            </div>
-        </div>
-    </div>
+            <div class="game-area">
+              <div class="game-board">
+                  <div class="top-section">
+                      <div id="leftPlate" class="plate"></div>
+                      <div class="operation">-</div>
+                      <div id="rightPlate" class="plate"></div>
+                      <div class="operation">=</div>
+                      <div id="result" class="result">?</div>
+                  </div>
+                  <div class="bottom-section">
+                      <div id="appleContainer" class="apple-container"></div>
+                  </div>
+              </div>
+              
+              <div class="actions">
+                  <button onclick="generateTarget()">Novo Desafio</button>
+                  <button onclick="checkResult()">Verificar</button>
+              </div>
+          </div>
 
-    <script src="/javaScript/navegate.js"></script>
-    <script src="/javaScript/jogoSomaDificil.js"></script>
-    <footer>
+          <script src="/javaScript/jogoSubtracaoDificil.js"></script>
+          <script src="/javaScript/navegate.js"></script>
+          <footer>
       <img src="/images/sesiIcon.png" alt="escola sesi icone">
     </footer>
 </body>
