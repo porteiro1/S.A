@@ -1,0 +1,89 @@
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mathema Quest</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styleDificuldade.css"/>
+    <style>
+      .explanation {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        text-align: left;
+      }
+      .explanation h2 {
+        color: var(--color-soma);
+        margin-bottom: 15px;
+      }
+      .explanation p {
+        margin-bottom: 10px;
+        line-height: 1.6;
+      }
+      .explanation ol {
+        margin-left: 30px;
+        margin-bottom: 10px;
+      }
+      .explanation strong {
+        color: var(--color-soma);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">Mathema Quest</div>
+        <div class="user-section">
+          <span class="greeting">Olá Estudante!</span>
+          <div class="user-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+        </div>
+      </header>
+      <div class="voltar">
+        <img src="/images/voltar.png" onclick="navegateTo('/html/index.html')" alt="voltar" />
+      </div>
+      <main class="operations-grid">
+        <div class="explanation">
+          <h2>O que é a soma?</h2>
+          <p>A soma é uma operação matemática onde juntamos duas ou mais quantidades para encontrar o total. Podemos pensar nisso como "adicionar" coisas.</p>
+          
+          <h2>Exemplo com maçãs:</h2>
+          <p>Vamos supor que você tem 2 maçãs e depois ganha 3 maçãs de um amigo. Para saber quantas maçãs você tem no total, fazemos a soma.</p>
+          
+          <h2>Passo a passo da soma:</h2>
+          <ol>
+            <li>Você tem <strong>2 maçãs</strong>.</li>
+            <li>Seu amigo te dá <strong>3 maçãs</strong>.</li>
+            <li>Agora, para descobrir o total, você junta todas as maçãs. <strong>2 maçãs + 3 maçãs = 5 maçãs</strong>.</li>
+          </ol>
+          
+          <p>Então, no total, você tem <strong>5 maçãs</strong>.</p>
+          <p>A soma é isso: juntar as coisas para encontrar o total.</p>
+        </div>
+      </main>
+
+      <footer>
+        <img src="/images/sesiIcon.png" alt="Escola SESI" />
+      </footer>
+    </div>
+    <script src="/javaScript/navegate.js"></script>
+  </body>
+</html>
