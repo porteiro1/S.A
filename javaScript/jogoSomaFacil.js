@@ -22,7 +22,7 @@ let targetSum = 0;
             // Gera 10 maçãs
             for (let i = 0; i < 10; i++) {
                 const apple = document.createElement('img');
-                apple.src = 'https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/red-apple.png';
+                apple.src = '/images/apple.png';
                 apple.classList.add('apple');
                 apple.draggable = true;
                 

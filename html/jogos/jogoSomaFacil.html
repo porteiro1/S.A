@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mathema Quest - Jogo das Maçãs</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="jogoMaca.css" />
-</head>
+    <link rel="stylesheet" href="/css/jogoMaca.css" />
+  </head>
 <body>
     <div class="container">
         <div class="container">
@@ -30,7 +30,9 @@
                 </div>
               </div>
             </header>
-
+            <div class="voltar">
+              <img src="/images/voltar.png" onclick="navegateTo('/html/dificuldade/dificuldadeSoma.html')" alt="voltar" />
+            </div>
         <div class="game-area">
             <div class="game-board">
                 <div class="top-section">
@@ -52,9 +54,10 @@
         </div>
     </div>
 
-    <script src="jogoFunciona.js"></script>
+    <script src="/javaScript/navegate.js"></script>
+    <script src="/javaScript/jogoSomaFacil.js"></script>
     <footer>
-      <img src="sesiIcon.png" alt="escola sesi icone">
+      <img src="/images/sesiIcon.png" alt="escola sesi icone">
     </footer>
 </body>
 </html>

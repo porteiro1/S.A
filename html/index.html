@@ -7,7 +7,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styleDificuldade.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
     <div class="container">
@@ -31,25 +31,42 @@
           </div>
         </div>
       </header>
-      <div class="voltar">
-        <img src="voltar.png" onclick="navegateTo('index.html')" alt="voltar" />
-      </div>
+
       <main class="operations-grid">
-        <div class="operation facil">
-          <span>Facil</span>
+        <div
+          class="operation soma"
+          onclick="navegateTo('/html/dificuldade/dificuldadeSoma.html')"
+        >
+          <div class="operation-icon">+</div>
+          <span>Soma</span>
         </div>
-        <div class="operation medio">
-          <span>Médio</span>
+        <div
+          class="operation subtracao"
+          onclick="navegateTo('/html/dificuldade/dificuldadeSubtracao.html')"
+        >
+          <div class="operation-icon">-</div>
+          <span>Subtração</span>
         </div>
-        <div class="operation dificil">
-          <span>Difícil</span>
+        <div
+          class="operation multiplicacao"
+          onclick="navegateTo('/html/dificuldade/dificuldadeMultiplicacao.html')"
+        >
+          <div class="operation-icon">×</div>
+          <span>Multiplicação</span>
+        </div>
+        <div
+          class="operation divisao"
+          onclick="navegateTo('/html/dificuldadeDivisao.html')"
+        >
+          <div class="operation-icon">÷</div>
+          <span>Divisão</span>
         </div>
       </main>
 
       <footer>
-        <img src="sesiIcon.png" alt="Escola SESI" />
+        <img src="/images/sesiIcon.png" alt="Escola SESI" />
       </footer>
     </div>
-    <script src="navegate.js"></script>
+    <script src="/javaScript/navegate.js"></script>
   </body>
 </html>

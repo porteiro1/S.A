@@ -7,7 +7,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styleDificuldade.css" />
+    <link rel="stylesheet" href="/css/styleDificuldade.css" />
   </head>
   <body>
     <div class="container">
@@ -32,16 +32,16 @@
         </div>
       </header>
       <div class="voltar">
-        <img src="voltar.png" onclick="navegateTo('index.html')" alt="voltar" />
+        <img src="/images/voltar.png" onclick="navegateTo('/html/index.html')" alt="voltar" />
       </div>
       <main class="operations-grid">
-        <div class="operation facil">
+        <div class="operation facil" onclick="navegateTo('/html/jogos/jogoSubtracaoFacil.html')"">
           <span>Facil</span>
         </div>
-        <div class="operation medio">
+        <div class="operation medio" onclick="navegateTo('/html/jogos/jogoSubtracaoMedio.html')">
           <span>Médio</span>
         </div>
-        <div class="operation dificil">
+        <div class="operation dificil" onclick="navegateTo('/html/jogos/jogoSubtracaoDificil.html')">
           <span>Difícil</span>
         </div>
       </main>
@@ -50,6 +50,6 @@
         <img src="sesiIcon.png" alt="Escola SESI" />
       </footer>
     </div>
-    <script src="navegate.js"></script>
+    <script src="/javaScript/navegate.js"></script>
   </body>
 </html>
