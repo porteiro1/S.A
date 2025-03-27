@@ -1,0 +1,67 @@
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mathema Quest</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/explicacaoMultiplicacao.css"/>
+
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">Mathema Quest</div>
+        <div class="user-section">
+          <span class="greeting">Olá Estudante!</span>
+          <div class="user-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+        </div>
+      </header>
+      <div class="voltar">
+        <img src="/images/voltar.png" onclick="navegateTo('/html/index.html')" alt="voltar" />
+      </div>
+      <main>
+        <div class="explanation">
+          <h2>O que é a multiplicação?</h2>
+          <p>A multiplicação é uma operação matemática onde somamos uma quantidade várias vezes. Podemos pensar nisso como "repetir" uma soma várias vezes.</p>
+          
+          <h2>Exemplo com maçãs:</h2>
+          <p>Vamos supor que você tem 3 cestas e em cada cesta há 4 maçãs. Para saber quantas maçãs há no total, fazemos a multiplicação.</p>
+          
+          <h2>Passo a passo da multiplicação:</h2>
+          <ol>
+            <li>Cada cesta tem <strong>4 maçãs</strong>.</li>
+            <li>Você tem <strong>3 maçãs</strong>.</li>
+            <li>Em vez de somar 4 + 4 + 4, usamos a multiplicação:
+                <strong>3 cestas x 4 maçãs = 12 maçãs</strong>.</li>
+          </ol>
+          
+          <p>Então, no total, você tem <strong>12 maçãs</strong>.</p>
+          <p>A multiplicação é isso: repetir uma soma várias vezes para encontrar o total.</p>
+        </div>
+      </main>
+      <div class="actions">
+        <button onclick="navegateTo('/html/dificuldade/dificuldadeMultiplicacao.html')">Vamos para o desafio!</button>
+    </div>
+      <footer>
+        <img src="/images/sesiIcon.png" alt="Escola SESI" />
+      </footer>
+    </div>
+    <script src="/javaScript/navegate.js"></script>
+  </body>
+</html>
