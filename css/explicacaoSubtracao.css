@@ -1,8 +1,8 @@
 :root {
-  --color-green: #33a43d;
+  --color-green: #be4d40;
   --color-blue: #03a9f4;
   --color-beige: #f5f5dc;
-  --color-soma: #33a43d;
+  --color-soma: #be4d40;
 }
 
 * {
@@ -18,7 +18,7 @@ html, body {
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #7ed321;
+  background-color: #fb3e40;
   letter-spacing: 3px;
 }
 
@@ -109,7 +109,7 @@ main {
 
 button {
   height: 5em;
-  background-color: #33a43d;
+  background-color: #be4d40;
   border: 0px;
   border-radius: 10px;
   color: white;
