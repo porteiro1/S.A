@@ -73,6 +73,48 @@ header {
   overflow: hidden;
 }
 
+.game-container {
+  text-align: center;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.word-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.word {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: 2px solid #3498db;
+  background-color: #ecf0f1;
+  cursor: move;
+  user-select: none;
+  transition: background-color 0.3s;
+}
+.word.dragging {
+  opacity: 0.5;
+}
+.drop-zone {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-right: 5%;
+}
+.drop-area {
+  width: 140px;
+  height: 50px;
+  border: 2px solid #000000;
+  margin: 0 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.drop-area.drag-over {
+  background-color: #d4edda;
+}
 .top-section {
   display: flex;
   justify-content: center;
@@ -158,3 +200,4 @@ footer {
 footer img {
   max-width: 100px;
 }
+
