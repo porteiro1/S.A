@@ -3,31 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operações Matemáticas - Adição</title>
-    <link rel="stylesheet" type="text/css" href="/css/quizFinal.css">
+    <title>Mathema Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/quizFinal.css">
+    
 </head>
 <body>
-    <div class="instrucao">
-        LEIA OS TEXTOS E RESOLVA OS PROBLEMAS MATEMÁTICOS
-    </div>
-    
-    <div class="categoria">ADIÇÃO</div>
-    
-    <div class="questao">
-        <span class="numero-questao">1</span> 
-        <strong>ANA TÊM 7 LARANJAS E COMPROU MAIS 3. QUANTAS LARANJAS ANA TÊM AGORA?</strong>
-        <img src="/api/placeholder/60/60" alt="Laranjas" class="imagem-questao">
+    <div class="container">
+        <header>
+            <div class="logo">Mathema Quest</div>
+            <div class="user-section">
+                <div class="user-icon">👨‍🎓</div>
+            </div>
+        </header>
         
-        <div class="resposta">
-            <input type="number" id="resposta-usuario" placeholder="Digite sua resposta">
-            <button onclick="verificarResposta()">Verificar</button>
-            <div id="feedback" class="feedback"></div>
-        </div>
+        <main>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+            </div>
+            
+            <div class="quiz-container" id="container-questoes">
+                <!-- As questões serão inseridas dinamicamente aqui -->
+            </div>
+            
+            <div class="resultado" id="resultado">
+                <h2>Resultado do Quiz</h2>
+                <div class="pontuacao" id="pontuacao">0/10</div>
+                
+                <div class="resultado-actions">
+                    <button id="btn-exportar">Exportar Resultados</button>
+                    <button id="btn-reiniciar">Reiniciar Quiz</button>
+                </div>
+                
+                <div class="resumo-header">Resumo das Respostas</div>
+                <div class="resumo-respostas" id="resumo-respostas"></div>
+            </div>
+        </main>
+        
+        <footer>
+            Mathema Quest © 2025
+        </footer>
     </div>
-    
     <script src="/javaScript/scriptQuiz.js"></script>
-
-
-
 </body>
 </html>
