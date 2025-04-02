@@ -241,7 +241,7 @@ header {
 }
 
 button {
-  background-color: var(--color-blue);
+  background-color: #33A43D;
   color: white;
   border: none;
   padding: 10px 20px;
