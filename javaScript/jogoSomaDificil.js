@@ -288,7 +288,7 @@ function checkResult() {
     alert(`Parabéns! Você acertou! 🎉`);
   } else {
     alert(
-      `Ops! Você colocou um total de ${actualSum} maçãs (${leftApples} maçãs + ${leftBaskets * BASKET_VALUE} de cestas no prato esquerdo e ${rightApples} maçãs + ${rightBaskets * BASKET_VALUE} de cestas no prato direito), mas o desafio era obter ${expectedSum} maçãs.`
+      `Ops! Você colocou um total de ${actualSum} maçãs, vamos tentar novamente!`
     );
   }
 

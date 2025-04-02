@@ -201,27 +201,30 @@ function checkResult() {
   
   const dropArea1 = document.getElementById("dropArea1");
   const dropArea2 = document.getElementById("dropArea2");
+  const dropArea3 = document.getElementById("dropArea3");
 
-  // Check if words are in the correct order (Hello first, World second)
+  // Check if words are in the correct order
   const firstWord = dropArea1.firstChild;
   const secondWord = dropArea2.firstChild;
+  const thirtdWord = dropArea3.firstChild;
 
   if (
     firstWord &&
     secondWord &&
     firstWord.id === "word1" &&
-    secondWord.id === "word2"
+    secondWord.id === "word2" &&
+    thirtdWord.id === "word3"
   ) {
-    alert("Ordem correta 🎉");
+    alert("Ordem correta das parcelas! 🎉");
   } else {
-    alert("Errou a ordem das palavras");
+    alert("Errou a ordem das parcelas!");
   }
-  
+
   if (actualSum === expectedSum) {
-    alert(`Parabéns! Você acertou! 🎉\nVocê colocou ${leftApples} maçãs + ${leftBaskets} cestas no prato esquerdo e ${rightApples} maçãs + ${rightBaskets} cestas no prato direito, totalizando ${actualSum} maçãs.`);
+    alert(`Parabéns! Você acertou! 🎉`);
   } else {
     alert(
-      `Ops! Você colocou um total de ${actualSum} maçãs (${leftApples} maçãs + ${leftBaskets * BASKET_VALUE} de cestas no prato esquerdo e ${rightApples} maçãs + ${rightBaskets * BASKET_VALUE} de cestas no prato direito), mas o desafio era obter ${expectedSum} maçãs.`
+      `Ops! Você colocou um total de ${actualSum} maçãs, vamos tentar novamente!`
     );
   }
 

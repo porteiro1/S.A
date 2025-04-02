@@ -80,7 +80,10 @@ function dragStart(e) {
   e.target.classList.add("dragging");
   e.dataTransfer.setData("text/plain", e.target.id);
   // Adiciona informação se é uma maçã ou uma cesta
-  e.dataTransfer.setData("itemType", e.target.classList.contains("apple") ? "apple" : "basket");
+  e.dataTransfer.setData(
+    "itemType",
+    e.target.classList.contains("apple") ? "apple" : "basket"
+  );
 }
 
 function dragEnd(e) {
@@ -127,7 +130,10 @@ function dropLeft(e) {
       draggingItem.addEventListener("click", () =>
         removeItemFromPlate(draggingItem, leftPlate, "left", "apple")
       );
-    } else if (itemType === "basket" || draggingItem.classList.contains("basket")) {
+    } else if (
+      itemType === "basket" ||
+      draggingItem.classList.contains("basket")
+    ) {
       leftBaskets++;
       // Reconfigura os eventos para a cesta no prato
       draggingItem.addEventListener("click", () =>
@@ -156,7 +162,10 @@ function dropRight(e) {
       draggingItem.addEventListener("click", () =>
         removeItemFromPlate(draggingItem, rightPlate, "right", "apple")
       );
-    } else if (itemType === "basket" || draggingItem.classList.contains("basket")) {
+    } else if (
+      itemType === "basket" ||
+      draggingItem.classList.contains("basket")
+    ) {
       rightBaskets++;
       // Reconfigura os eventos para a cesta no prato
       draggingItem.addEventListener("click", () =>
@@ -193,53 +202,48 @@ function removeItemFromPlate(item, plate, plateType, itemType) {
 
 function checkResult() {
   const expectedSum = targetSum;
-  
+
   // Calcula a soma total considerando que cada cesta vale BASKET_VALUE maçãs
-  const leftTotal = leftApples + (leftBaskets * BASKET_VALUE);
-  const rightTotal = rightApples + (rightBaskets * BASKET_VALUE);
+  const leftTotal = leftApples + leftBaskets * BASKET_VALUE;
+  const rightTotal = rightApples + rightBaskets * BASKET_VALUE;
   const actualSum = leftTotal - rightTotal;
-  
+
   const dropArea1 = document.getElementById("dropArea1");
   const dropArea2 = document.getElementById("dropArea2");
+  const dropArea3 = document.getElementById("dropArea3");
 
-  // Check if words are in the correct order (Hello first, World second)
+  // Check if words are in the correct order
   const firstWord = dropArea1.firstChild;
   const secondWord = dropArea2.firstChild;
+  const thirtdWord = dropArea3.firstChild;
 
   if (
     firstWord &&
     secondWord &&
     firstWord.id === "word1" &&
-    secondWord.id === "word2"
+    secondWord.id === "word2" &&
+    thirtdWord.id === "word3"
   ) {
-    alert("Ordem correta 🎉");
+    alert("Ordem correta das parcelas! 🎉");
   } else {
-    alert("Errou a ordem das palavras");
+    alert("Errou a ordem das parcelas!");
   }
-  
+
   if (actualSum === expectedSum) {
-    alert(`Parabéns! Você acertou! 🎉\nVocê colocou ${leftApples} maçãs + ${leftBaskets} cestas no prato esquerdo e ${rightApples} maçãs + ${rightBaskets} cestas no prato direito, totalizando ${actualSum} maçãs.`);
+    alert(`Parabéns! Você acertou! 🎉`);
   } else {
     alert(
-      `Ops! Você colocou um total de ${actualSum} maçãs (${leftApples} maçãs + ${leftBaskets * BASKET_VALUE} de cestas no prato esquerdo e ${rightApples} maçãs + ${rightBaskets * BASKET_VALUE} de cestas no prato direito), mas o desafio era obter ${expectedSum} maçãs.`
+      `Ops! Você colocou um total de ${actualSum} maçãs, vamos tentar novamente!`
     );
   }
 
   generateTarget();
 }
 
-function updateDisplay() {
-  // Exibe a contagem atual de maçãs e cestas em cada prato
-  const leftTotal = leftApples + (leftBaskets * BASKET_VALUE);
-  const rightTotal = rightApples + (rightBaskets * BASKET_VALUE);
-  document.getElementById("leftCount").textContent = `${leftTotal} (${leftApples} maçãs + ${leftBaskets} cestas)`;
-  document.getElementById("rightCount").textContent = `${rightTotal} (${rightApples} maçãs + ${rightBaskets} cestas)`;
-}
-
 // Inicia o jogo com um primeiro desafio
 generateTarget();
 
 // Adiciona um evento para atualizar a contagem quando itens são movidos
-['dragend', 'drop'].forEach(eventName => {
+["dragend", "drop"].forEach((eventName) => {
   document.addEventListener(eventName, updateDisplay);
 });

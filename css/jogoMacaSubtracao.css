@@ -73,11 +73,64 @@ header {
   overflow: hidden;
 }
 
-.top-section {
+.game-container {
+  text-align: center;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.word-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.word {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: 2px solid #3498db;
+  background-color: #ecf0f1;
+  cursor: move;
+  user-select: none;
+  transition: background-color 0.3s;
+}
+.word.dragging {
+  opacity: 0.5;
+}
+
+.drop-zone {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px 0;
+}
+
+.drop-area {
+  width: 140px;
+  height: 50px;
+  border: 2px solid #000000;
+  margin: 0 38px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.drop-area.drag-over {
+  background-color: #d4edda;
+}
+
+/* Modified drop-zone to stay fixed to the top-section */
+.top-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   gap: 20px;
+  position: relative;
 }
 
 .plate {
@@ -199,8 +252,34 @@ header {
   box-shadow: 0 0 10px rgba(0, 0, 255, 0.3);
 }
 
+.bucket-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Estilo para cada balde */
+.bucket {
+  width: 60px;
+  height: 60px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.bucket:hover {
+  transform: scale(1.1);
+}
+
+.bucket.dragging {
+  opacity: 0.5;
+}
+
 button {
-  background-color: #BE4D40;
+  background-color: var(--color-blue);
   color: white;
   border: none;
   padding: 10px 20px;
