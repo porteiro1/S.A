@@ -140,6 +140,65 @@ header {
   margin-top: 20px;
 }
 
+.basket-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Estilo para cada cesta */
+.basket {
+  width: 50px;
+  height: 50px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.basket:hover {
+  transform: scale(1.1);
+}
+
+.basket.dragging {
+  opacity: 0.5;
+}
+
+/* Containers para os pratos e seus contadores */
+.plate-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilo para os contadores de cada prato */
+.plate-count {
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  background-color: var(--color-beige);
+  padding: 3px 8px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Ajuste para o layout da seção inferior onde ficam maçãs e cestas */
+.bottom-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Estilo para quando um item está sendo arrastado sobre um prato */
+.plate.drag-over {
+  background-color: #f0f8ff;
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.3);
+}
+
 button {
   background-color: #BE4D40;
   color: white;

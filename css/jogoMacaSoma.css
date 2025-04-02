@@ -240,8 +240,34 @@ header {
   box-shadow: 0 0 10px rgba(0, 0, 255, 0.3);
 }
 
+.bucket-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Estilo para cada balde */
+.bucket {
+  width: 60px;
+  height: 60px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.bucket:hover {
+  transform: scale(1.1);
+}
+
+.bucket.dragging {
+  opacity: 0.5;
+}
+
 button {
-  background-color: #33A43D;
+  background-color: var(--color-blue);
   color: white;
   border: none;
   padding: 10px 20px;
