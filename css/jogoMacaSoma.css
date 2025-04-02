@@ -267,7 +267,7 @@ header {
 }
 
 button {
-  background-color: #33A43D;
+  background-color: var(--color-blue);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -283,6 +283,5 @@ footer {
 
 footer img {
   max-width: 100px;
-  position: bottom;
 }
 

@@ -265,16 +265,19 @@ function checkResult() {
   
   const dropArea1 = document.getElementById("dropArea1");
   const dropArea2 = document.getElementById("dropArea2");
+  const dropArea3 = document.getElementById("dropArea3");
 
   // Check if words are in the correct order
   const firstWord = dropArea1.firstChild;
   const secondWord = dropArea2.firstChild;
+  const thirtdWord = dropArea3.firstChild;
 
   if (
     firstWord &&
     secondWord &&
     firstWord.id === "word1" &&
-    secondWord.id === "word2"
+    secondWord.id === "word2" &&
+    thirtdWord.id === "word3"
   ) {
     alert("Ordem correta das parcelas! 🎉");
   } else {
