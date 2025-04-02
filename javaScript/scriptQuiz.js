@@ -1,5 +1,3 @@
-
-// Dados das questões
 const questoes = [
     {
         id: 1,
@@ -158,6 +156,7 @@ function iniciarQuiz() {
     document.getElementById('btn-reiniciar').addEventListener('click', reiniciarQuiz);
     
     atualizarProgressBar();
+    atualizarTemaSite(questoes[0].tipo);
 }
 
 // Verificar a resposta do usuário
@@ -213,6 +212,40 @@ function navegarParaQuestao(index) {
     
     questaoAtual = index;
     atualizarProgressBar();
+    
+    // Atualizar o tema do site baseado no tipo da questão atual
+    atualizarTemaSite(questoes[index].tipo);
+}
+
+// Atualizar o tema de cores do site baseado no tipo de operação
+function atualizarTemaSite(tipo) {
+    // Remover todas as classes de operação do corpo do documento
+    document.body.classList.remove('tema-adicao', 'tema-subtracao', 'tema-multiplicacao', 'tema-divisao');
+    
+    // Adicionar a classe correspondente ao tipo da questão atual
+    document.body.classList.add(`tema-${tipo}`);
+    
+    // Atualizar cor primária baseada no tipo
+    let corPrimaria;
+    switch(tipo) {
+        case 'adicao':
+            corPrimaria = '#33a43d'; // Verde
+            break;
+        case 'subtracao':
+            corPrimaria = '#F44336'; // Vermelho
+            break;
+        case 'multiplicacao':
+            corPrimaria = '#03a9f4'; // Azul
+            break;
+        case 'divisao':
+            corPrimaria = '#FF9800'; // Laranja
+            break;
+        default:
+            corPrimaria = '#2C5FBC'; // Azul padrão
+    }
+    
+    // Atualizar as variáveis CSS
+    document.documentElement.style.setProperty('--color-primary', corPrimaria);
 }
 
 // Atualizar a barra de progresso
@@ -253,6 +286,10 @@ function mostrarResultado() {
         
         resumoElement.appendChild(resumoItem);
     });
+    
+    // Restaurar o tema padrão do site
+    document.body.classList.remove('tema-adicao', 'tema-subtracao', 'tema-multiplicacao', 'tema-divisao');
+    document.documentElement.style.setProperty('--color-primary', '#2C5FBC');
     
     // Mostrar a tela de resultado
     document.getElementById('resultado').style.display = 'block';
