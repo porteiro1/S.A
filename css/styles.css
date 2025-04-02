@@ -128,6 +128,26 @@ footer {
     background-color: var(--color-primary);
 }
 
+button {
+    height: 5em;
+    background-color: #2196F3;
+    border: 0px;
+    border-radius: 10px;
+    color: white;
+    letter-spacing: 1.4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-bottom: 5px;
+  }
+  
+  button:hover {
+    transform: scale(1.05);
+  }
+
+  .Botao{
+    text-align: center;
+  }
+
 footer img {
     max-width: 100px;
 }
