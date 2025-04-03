@@ -28,8 +28,38 @@ function resetGame() {
   rightBaskets = 0;
   appleContainer.innerHTML = "";
   basketContainer.innerHTML = "";
+  
+  // Reset drop areas - corrigido
+  dropAreas.forEach(area => {
+    area.innerHTML = "";
+  });
 
-  // Gera 20 maçãs
+  // Recria as palavras e as coloca de volta no container original
+  const wordContainer = document.getElementById("wordContainer");
+  if (wordContainer) {
+    wordContainer.innerHTML = "";
+    
+    // Recria as palavras
+    const wordData = [
+      { id: "word1", text: "Parcela" },
+      { id: "word2", text: "Parcela" },
+      { id: "word3", text: "Soma" }
+    ];
+    
+    wordData.forEach(item => {
+      const word = document.createElement("div");
+      word.id = item.id;
+      word.className = "word";
+      word.textContent = item.text;
+      word.draggable = true;
+      
+      word.addEventListener("dragstart", dragStart);
+      word.addEventListener("dragend", dragEnd);
+      
+      wordContainer.appendChild(word);
+    });
+  }
+
   for (let i = 0; i < 10; i++) {
     const apple = document.createElement("img");
     apple.src = "/images/apple.png";
@@ -199,21 +229,14 @@ function checkResult() {
   const rightTotal = rightApples + (rightBaskets * BASKET_VALUE);
   const actualSum = leftTotal + rightTotal;
   
-  const dropArea1 = document.getElementById("dropArea1");
-  const dropArea2 = document.getElementById("dropArea2");
   const dropArea3 = document.getElementById("dropArea3");
 
   // Check if words are in the correct order
-  const firstWord = dropArea1.firstChild;
-  const secondWord = dropArea2.firstChild;
-  const thirtdWord = dropArea3.firstChild;
+  const thirdword = dropArea3.firstChild;
 
   if (
-    firstWord &&
-    secondWord &&
-    firstWord.id === "word1" &&
-    secondWord.id === "word2" &&
-    thirtdWord.id === "word3"
+    thirdword &&
+    thirdword.id === "word3"
   ) {
     alert("Ordem correta das parcelas! 🎉");
   } else {
@@ -241,8 +264,3 @@ function updateDisplay() {
 
 // Inicia o jogo com um primeiro desafio
 generateTarget();
-
-// Adiciona um evento para atualizar a contagem quando itens são movidos
-['dragend', 'drop'].forEach(eventName => {
-  document.addEventListener(eventName, updateDisplay);
-});

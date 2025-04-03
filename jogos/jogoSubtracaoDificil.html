@@ -37,20 +37,33 @@
             </div>
             <div class="game-area">
               <div class="game-board">
-                  <div class="top-section">
-                      <div id="leftPlate" class="plate"></div>
-                      <div class="operation">-</div>
-                      <div id="rightPlate" class="plate"></div>
-                      <div class="operation">=</div>
-                      <div id="result" class="result">?</div>
-                  </div>
-                  <div class="bottom-section">
-                      <div id="appleContainer" class="apple-container"></div>
-                  </div>
+                <div class="word-container" id="wordContainer">
+                  <div class="word" draggable="true" id="word1">Minuendo</div>
+                  <div class="word" draggable="true" id="word2">Subtraendo</div>
+                  <div class="word" draggable="true" id="word3">Resto ou diferença</div>
+                </div>
+                <div class="drop-zone">
+                  <div class="drop-area" id="dropArea1"></div>
+                  <div class="operation">-</div>
+                  <div class="drop-area" id="dropArea2"></div>
+                  <div class="operation">=</div>
+                  <div class="drop-area" id="dropArea3"></div>
+                </div>
+                <div class="top-section">
+                  <div id="leftPlate" class="plate"></div>
+                  <div class="operation">+</div>
+                  <div id="rightPlate" class="plate"></div>
+                  <div class="operation">=</div>
+                  <div id="result" class="result">?</div>
+                </div>
+                <div class="bottom-section">
+                  <div id="appleContainer" class="apple-container"></div>
+                  <div id="basketContainer" class="basket-container"></div>
+                  <div id="bucketContainer" class="bucket-container"></div>
+                </div>
               </div>
               
               <div class="actions">
-                  <button onclick="generateTarget()">Novo Desafio</button>
                   <button onclick="checkResult()">Verificar</button>
               </div>
           </div>

@@ -35,6 +35,37 @@ function resetGame() {
   appleContainer.innerHTML = "";
   basketContainer.innerHTML = "";
   bucketContainer.innerHTML = "";
+  
+  // Reset drop areas - corrigido
+  dropAreas.forEach(area => {
+    area.innerHTML = "";
+  });
+
+  // Recria as palavras e as coloca de volta no container original
+  const wordContainer = document.getElementById("wordContainer");
+  if (wordContainer) {
+    wordContainer.innerHTML = "";
+    
+    // Recria as palavras
+    const wordData = [
+      { id: "word1", text: "Parcela" },
+      { id: "word2", text: "Parcela" },
+      { id: "word3", text: "Soma" }
+    ];
+    
+    wordData.forEach(item => {
+      const word = document.createElement("div");
+      word.id = item.id;
+      word.className = "word";
+      word.textContent = item.text;
+      word.draggable = true;
+      
+      word.addEventListener("dragstart", dragStart);
+      word.addEventListener("dragend", dragEnd);
+      
+      wordContainer.appendChild(word);
+    });
+  }
 
   // Gera maçãs
   for (let i = 0; i < 10; i++) {
@@ -84,19 +115,13 @@ function resetGame() {
   rightPlate.addEventListener("dragover", dragOver);
   rightPlate.addEventListener("drop", dropRight);
 
-  // Configuração para as palavras
-  words.forEach((word) => {
-    word.addEventListener("dragstart", dragStart);
-    word.addEventListener("dragend", dragEnd);
-  });
-
   // Drop zone events
   dropAreas.forEach((area) => {
     area.addEventListener("dragover", dragOver);
     area.addEventListener("dragleave", dragLeave);
     area.addEventListener("drop", drop);
   });
-  
+
   // Atualiza a exibição inicial
   updateDisplay();
 }
@@ -267,23 +292,18 @@ function checkResult() {
   const dropArea2 = document.getElementById("dropArea2");
   const dropArea3 = document.getElementById("dropArea3");
 
-  // Check if words are in the correct order
-  const firstWord = dropArea1.firstChild;
-  const secondWord = dropArea2.firstChild;
-  const thirtdWord = dropArea3.firstChild;
+
+  const thirdWord = dropArea3.firstChild;
 
   if (
-    firstWord &&
-    secondWord &&
-    firstWord.id === "word1" &&
-    secondWord.id === "word2" &&
-    thirtdWord.id === "word3"
+    thirdWord &&
+    thirdWord.id === "word3"
   ) {
     alert("Ordem correta das parcelas! 🎉");
   } else {
     alert("Errou a ordem das parcelas!");
   }
-  
+
   if (actualSum === expectedSum) {
     alert(`Parabéns! Você acertou! 🎉`);
   } else {
