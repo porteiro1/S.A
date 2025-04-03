@@ -30,9 +30,9 @@ function resetGame() {
   rightBuckets = 0;
   appleContainer.innerHTML = "";
   basketContainer.innerHTML = "";
-  
+
   // Reset drop areas - corrigido
-  dropAreas.forEach(area => {
+  dropAreas.forEach((area) => {
     area.innerHTML = "";
   });
 
@@ -40,24 +40,24 @@ function resetGame() {
   const wordContainer = document.getElementById("wordContainer");
   if (wordContainer) {
     wordContainer.innerHTML = "";
-    
+
     // Recria as palavras
     const wordData = [
       { id: "word2", text: "Subtrendo" },
       { id: "word1", text: "Minuendo" },
-      { id: "word3", text: "diferença" }
+      { id: "word3", text: "diferença" },
     ];
-    
-    wordData.forEach(item => {
+
+    wordData.forEach((item) => {
       const word = document.createElement("div");
       word.id = item.id;
       word.className = "word";
       word.textContent = item.text;
       word.draggable = true;
-      
+
       word.addEventListener("dragstart", dragStart);
       word.addEventListener("dragend", dragEnd);
-      
+
       wordContainer.appendChild(word);
     });
   }
@@ -262,7 +262,9 @@ function checkResult() {
 
   if (actualSum === expectedSum) {
     alert(`Parabéns! Você acertou! 🎉`);
-  } else {
+  } else if (expectedSum * -1 === actualSum) {
+    alert(`Você acertou, porém o ${actualSum} está negativo!!!`);
+  } else if (actualSum != expectedSum) {
     alert(
       `Ops! Você colocou um total de ${actualSum} maçãs, vamos tentar novamente!`
     );
