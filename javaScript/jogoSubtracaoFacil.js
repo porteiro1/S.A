@@ -1,10 +1,20 @@
 let targetSum = 0;
+<<<<<<< Updated upstream
 let leftApples = 0;
 let rightApples = 0;
 const leftPlate = document.getElementById("leftPlate");
 const rightPlate = document.getElementById("rightPlate");
 const appleContainer = document.getElementById("appleContainer");
 const resultDisplay = document.getElementById("result");
+=======
+        let leftApples = 0;
+        let rightApples = 0;
+        const leftPlate = document.getElementById('leftPlate');
+        const rightPlate = document.getElementById('rightPlate');
+        const appleContainer = document.getElementById('appleContainer');
+        const resultDisplay = document.getElementById('result');
+        const sound = new Audio("../images/macaSoundEffect.mp3");
+>>>>>>> Stashed changes
 
 function generateTarget() {
   targetSum = Math.floor(Math.random() * 10) + 1;
@@ -36,6 +46,7 @@ function resetGame() {
   leftPlate.addEventListener("dragover", dragOver);
   leftPlate.addEventListener("drop", dropLeft);
 
+<<<<<<< Updated upstream
   rightPlate.addEventListener("dragover", dragOver);
   rightPlate.addEventListener("drop", dropRight);
 }
@@ -44,6 +55,43 @@ function dragStart(e) {
   e.target.classList.add("dragging");
   e.dataTransfer.setData("text/plain", e.target.id);
 }
+=======
+        function dropLeft(e) {
+            e.preventDefault();
+            const appleImg = document.querySelector('.dragging');
+            
+            if (appleImg) {
+                // Remove a maçã do container original
+                appleImg.remove();
+                sound.play();
+                
+                // Adiciona a maçã no prato esquerdo
+                leftPlate.appendChild(appleImg);
+                leftApples++;
+                
+                // Reconfigura os eventos para a maçã no prato
+                appleImg.addEventListener('click', () => removeAppleFromPlate(appleImg, leftPlate, 'left'));
+            }
+        }
+
+        function dropRight(e) {
+            e.preventDefault();
+            const appleImg = document.querySelector('.dragging');
+            
+            if (appleImg) {
+                // Remove a maçã do container original
+                appleImg.remove();
+                sound.play();
+                
+                // Adiciona a maçã no prato direito
+                rightPlate.appendChild(appleImg);
+                rightApples++;
+                
+                // Reconfigura os eventos para a maçã no prato
+                appleImg.addEventListener('click', () => removeAppleFromPlate(appleImg, rightPlate, 'right'));
+            }
+        }
+>>>>>>> Stashed changes
 
 function dragEnd(e) {
   e.target.classList.remove("dragging");
