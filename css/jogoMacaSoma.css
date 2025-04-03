@@ -88,7 +88,7 @@ header {
 .word {
   margin: 0 10px;
   padding: 10px 20px;
-  border: 2px solid #3498db;
+  border: 2px solid #33a43d;
   background-color: #ecf0f1;
   cursor: move;
   user-select: none;
@@ -279,7 +279,7 @@ header {
 }
 
 button {
-  background-color: var(--color-blue);
+  background-color: var(--color-green);
   color: white;
   border: none;
   padding: 10px 20px;

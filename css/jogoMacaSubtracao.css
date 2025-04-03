@@ -1,5 +1,5 @@
 :root {
-  --color-green: #be4d40;
+  --color-red: #be4d40;
   --color-blue: #03a9f4;
   --color-beige: #f5f5dc;
 }
@@ -88,7 +88,7 @@ header {
 .word {
   margin: 0 10px;
   padding: 10px 20px;
-  border: 2px solid #3498db;
+  border: 2px solid #be4d40;
   background-color: #ecf0f1;
   cursor: move;
   user-select: none;
@@ -279,7 +279,7 @@ header {
 }
 
 button {
-  background-color: var(--color-blue);
+  background-color: var(--color-green);
   color: white;
   border: none;
   padding: 10px 20px;
