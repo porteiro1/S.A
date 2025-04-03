@@ -7,7 +7,7 @@ let targetSum = 0;
         const resultDisplay = document.getElementById('result');
 
         function generateTarget() {
-            targetSum = Math.floor(Math.random() * 10) + 1;
+            targetSum = Math.floor(Math.random() * 10)+1;
             resultDisplay.textContent = targetSum;
             resetGame();
         }
@@ -20,7 +20,7 @@ let targetSum = 0;
             appleContainer.innerHTML = '';
             
             // Gera 10 maçãs
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 25; i++) {
                 const apple = document.createElement('img');
                 apple.src = '/images/apple.png';
                 apple.classList.add('apple');

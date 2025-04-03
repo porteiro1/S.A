@@ -26,10 +26,43 @@ function resetGame() {
   rightApples = 0;
   leftBaskets = 0;
   rightBaskets = 0;
+  leftBuckets = 0;
+  rightBuckets = 0;
   appleContainer.innerHTML = "";
   basketContainer.innerHTML = "";
+  
+  // Reset drop areas - corrigido
+  dropAreas.forEach(area => {
+    area.innerHTML = "";
+  });
 
-  // Gera 20 maçãs
+  // Recria as palavras e as coloca de volta no container original
+  const wordContainer = document.getElementById("wordContainer");
+  if (wordContainer) {
+    wordContainer.innerHTML = "";
+    
+    // Recria as palavras
+    const wordData = [
+      { id: "word2", text: "Subtrendo" },
+      { id: "word1", text: "Minuendo" },
+      { id: "word3", text: "diferença" }
+    ];
+    
+    wordData.forEach(item => {
+      const word = document.createElement("div");
+      word.id = item.id;
+      word.className = "word";
+      word.textContent = item.text;
+      word.draggable = true;
+      
+      word.addEventListener("dragstart", dragStart);
+      word.addEventListener("dragend", dragEnd);
+      
+      wordContainer.appendChild(word);
+    });
+  }
+
+  // Gera maçãs
   for (let i = 0; i < 10; i++) {
     const apple = document.createElement("img");
     apple.src = "/images/apple.png";
@@ -42,13 +75,13 @@ function resetGame() {
     appleContainer.appendChild(apple);
   }
 
-  // Gera 6 cestas
-  for (let i = 0; i < 10; i++) {
+  // Gera cestas
+  for (let i = 0; i < 6; i++) {
     const basket = document.createElement("img");
-    basket.src = "/images/basket.png"; // Imagem da cesta
+    basket.src = "/images/basket.png";
     basket.classList.add("basket");
     basket.draggable = true;
-    basket.dataset.value = BASKET_VALUE; // Atributo para armazenar o valor da cesta
+    basket.dataset.value = BASKET_VALUE;
 
     basket.addEventListener("dragstart", dragStart);
     basket.addEventListener("dragend", dragEnd);
@@ -56,17 +89,12 @@ function resetGame() {
     basketContainer.appendChild(basket);
   }
 
-  // Configura os pratos para receberem maçãs e cestas
+  // Configura os pratos para receberem maçãs, cestas e baldes
   leftPlate.addEventListener("dragover", dragOver);
   leftPlate.addEventListener("drop", dropLeft);
 
   rightPlate.addEventListener("dragover", dragOver);
   rightPlate.addEventListener("drop", dropRight);
-
-  words.forEach((word) => {
-    word.addEventListener("dragstart", dragStart);
-    word.addEventListener("dragend", dragEnd);
-  });
 
   // Drop zone events
   dropAreas.forEach((area) => {
@@ -74,6 +102,9 @@ function resetGame() {
     area.addEventListener("dragleave", dragLeave);
     area.addEventListener("drop", drop);
   });
+
+  // Atualiza a exibição inicial
+  updateDisplay();
 }
 
 function dragStart(e) {
