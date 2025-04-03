@@ -30,7 +30,7 @@ body {
 }
 
 header {
-  background-color: var(--color-green);
+  background-color: var(--color-red);
   color: white;
   display: flex;
   justify-content: space-between;
@@ -85,7 +85,7 @@ main {
 }
 
 .explanation h2 {
-  color: var(--color-green);
+  color: var(--color-red);
   margin-bottom: 15px;
 }
 
@@ -100,7 +100,7 @@ main {
 }
 
 .explanation strong {
-  color: var(--color-green);
+  color: var(--color-red);
 }
 
 .actions {
@@ -213,7 +213,7 @@ footer {
   color: white;
   text-align: right;
   padding: 15px;
-  background-color: var(--color-green);
+  background-color: var(--color-red);
   margin-top: auto;
 }
 

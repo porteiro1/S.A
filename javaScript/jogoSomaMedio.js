@@ -12,6 +12,7 @@ const basketContainer = document.getElementById("basketContainer"); // Novo cont
 const resultDisplay = document.getElementById("result");
 const words = document.querySelectorAll(".word");
 const dropAreas = document.querySelectorAll(".drop-area");
+const sound = new Audio("../images/macaSoundEffect.mp3");
 
 function generateTarget() {
   targetSum = Math.floor(Math.random() * 30); // Aumentei o intervalo para incluir somas maiores
@@ -147,6 +148,7 @@ function dropLeft(e) {
   if (draggingItem) {
     // Remove o item do container original
     draggingItem.remove();
+    sound.play();
 
     // Adiciona o item no prato esquerdo
     leftPlate.appendChild(draggingItem);
@@ -176,9 +178,11 @@ function dropRight(e) {
   if (draggingItem) {
     // Remove o item do container original
     draggingItem.remove();
+    sound.play();
 
     // Adiciona o item no prato direito
     rightPlate.appendChild(draggingItem);
+    
 
     if (itemType === "apple") {
       rightApples++;

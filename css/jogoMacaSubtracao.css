@@ -23,7 +23,7 @@ body {
 }
 
 header {
-  background-color: var(--color-green);
+  background-color: var(--color-red);
   color: white;
   display: flex;
   justify-content: space-between;
@@ -279,7 +279,7 @@ header {
 }
 
 button {
-  background-color: var(--color-green);
+  background-color: var(--color-red);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -290,7 +290,7 @@ footer {
   color: white;
   text-align: right;
   padding: 15px;
-  background-color: var(--color-green);
+  background-color: var(--color-red);
 }
 
 footer img {

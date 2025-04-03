@@ -5,6 +5,7 @@ let targetSum = 0;
         const rightPlate = document.getElementById('rightPlate');
         const appleContainer = document.getElementById('appleContainer');
         const resultDisplay = document.getElementById('result');
+        const sound = new Audio("../images/macaSoundEffect.mp3");
 
         function generateTarget() {
             targetSum = Math.floor(Math.random() * 10) + 1;
@@ -60,6 +61,7 @@ let targetSum = 0;
             if (appleImg) {
                 // Remove a maçã do container original
                 appleImg.remove();
+                sound.play();
                 
                 // Adiciona a maçã no prato esquerdo
                 leftPlate.appendChild(appleImg);
@@ -77,6 +79,7 @@ let targetSum = 0;
             if (appleImg) {
                 // Remove a maçã do container original
                 appleImg.remove();
+                sound.play();
                 
                 // Adiciona a maçã no prato direito
                 rightPlate.appendChild(appleImg);
