@@ -3,71 +3,71 @@ const questoes = [
         id: 1,
         categoria: "ADIÇÃO",
         tipo: "adicao",
-        texto: "ANA TÊM 7 LARANJAS E COMPROU MAIS 3. QUANTAS LARANJAS ANA TÊM AGORA?",
-        imagem: "laranja",
-        resposta: 10
+        texto: " Se você tem R$50 e recebe R$25 de mesada, quanto dinheiro você terá ao todo?",
+        imagem: "dinheiro",
+        resposta: 75
     },
     {
         id: 2,
         categoria: "ADIÇÃO",
         tipo: "adicao",
-        texto: "JOÃO TEM 15 BALÕES E GANHOU MAIS 5 DE PRESENTE. QUANTOS BALÕES JOÃO TEM AGORA?",
-        imagem: "balao",
-        resposta: 20
+        texto: "Ana tem 3 coelhos e ganhou 2 coelhos. Quantos coelhos Ana tem?",
+        imagem: "coelho",
+        resposta: 5
     },
     {
         id: 3,
-        categoria: "ADIÇÃO",
-        tipo: "adicao",
-        texto: "PAULO TEM 12 CARRINHOS DE BRINQUEDO E GANHOU MAIS 8 DE SEU TIO. QUANTOS CARRINHOS DE BRINQUEDO PAULO TEM AGORA?",
+        categoria: "SUBTRAÇÃO",
+        tipo: "subtracao",
+        texto: "Você tinha R$40 e gastou R$12 no lanche. Quanto dinheiro você tem agora?",
         imagem: "carro",
-        resposta: 20
+        resposta: 28
     },
     {
         id: 4,
-        categoria: "ADIÇÃO",
-        tipo: "adicao",
-        texto: "MARI TEM 10 LIVROS E COMPROU MAIS 6 NA LIVRARIA. QUANTOS LIVROS MARI TEM AGORA?",
+        categoria: "SUBTRAÇÃO",
+        tipo: "subtracao",
+        texto: "Se você precisa ler um livro de 200 páginas e já leu 85, quantas páginas faltam para terminar?",
         imagem: "livro",
-        resposta: 16
+        resposta: 115
     },
     {
         id: 5,
         categoria: "SUBTRAÇÃO",
         tipo: "subtracao",
-        texto: "CARLOS TEM 12 BOLINHAS E PERDEU 3. QUANTAS BOLINHAS CARLOS TEM AGORA?",
-        imagem: "bolinha",
+        texto: "Você tem 30 minutos para fazer a lição de casa e já se passaram 18 minutos. Quantos <strong>segundos</strong> você ainda tem?",
+        imagem: "relogio",
         resposta: 9
     },
     {
         id: 6,
-        categoria: "SUBTRAÇÃO",
-        tipo: "subtracao",
-        texto: "JULIA TINHA 20 FLORES E DEU 7 PARA SUA MÃE. QUANTAS FLORES JULIA TEM AGORA?",
-        imagem: "flor",
-        resposta: 13
+        categoria: "MULTIPLICAÇÃO",
+        tipo: "multiplicacao",
+        texto: "Você precisa comprar 5 pacotes de figurinhas e cada pacote tem 8 figurinhas. Quantas figurinhas você terá no total?",
+        imagem: "figurinha",
+        resposta: 40
     },
     {
         id: 7,
-        categoria: "MULTIPLICAÇÃO",
-        tipo: "multiplicacao",
-        texto: "CADA CAIXA TEM 5 CHOCOLATES. SE PEDRO TEM 3 CAIXAS, QUANTOS CHOCOLATES ELE TEM NO TOTAL?",
-        imagem: "chocolate",
+        categoria: "DIVISÃO",
+        tipo: "divisao",
+        texto: "Se você tem R$30 e quer comprar livros que custam R$6 cada, quantos livros você poderá comprar?",
+        imagem: "livros",
         resposta: 15
     },
     {
         id: 8,
-        categoria: "MULTIPLICAÇÃO",
-        tipo: "multiplicacao",
-        texto: "EM UMA ESCOLA, CADA SALA TEM 4 JANELAS. SE HÁ 6 SALAS, QUANTAS JANELAS HÁ NO TOTAL?",
-        imagem: "janela",
+        categoria: "DIVISÃO",
+        tipo: "divisao",
+        texto: "Você precisa organizar 36 lápis em 3 estojos. Quantos lápis você colocará em cada estojo?",
+        imagem: "lapis",
         resposta: 24
     },
     {
         id: 9,
-        categoria: "DIVISÃO",
-        tipo: "divisao",
-        texto: "MARCOS TEM 18 BALAS E QUER DIVIDIR IGUALMENTE ENTRE SEUS 3 AMIGOS. QUANTAS BALAS CADA AMIGO VAI RECEBER?",
+        categoria: "MULTIPLICAÇÃO",
+        tipo: "multiplicacao",
+        texto: "Você precisa comprar 3 cadernos que custam R$ 15 cada e 2 canetas que custam R$3 cada. Quanto você gastará no total?",
         imagem: "bala",
         resposta: 6
     },
