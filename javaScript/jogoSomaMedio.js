@@ -13,6 +13,8 @@ const resultDisplay = document.getElementById("result");
 const words = document.querySelectorAll(".word");
 const dropAreas = document.querySelectorAll(".drop-area");
 const sound = new Audio("../images/macaSoundEffect.mp3");
+const acerto = new Audio("../images/acerto.mp3");
+const erro = new Audio("../images/erro.mp3");
 
 function generateTarget() {
   targetSum = Math.floor(Math.random() * 30); // Aumentei o intervalo para incluir somas maiores
@@ -248,8 +250,10 @@ function checkResult() {
   }
 
   if (actualSum === expectedSum) {
+    acerto.play();
     alert(`Parabéns! Você acertou! 🎉`);
   } else {
+    erro.play();
     alert(
       `Ops! Você colocou um total de ${actualSum} maçãs, vamos tentar novamente!`
     );

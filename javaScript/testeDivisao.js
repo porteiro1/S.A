@@ -6,8 +6,6 @@ const rightPlate = document.getElementById("rightPlate");
 const appleContainer = document.getElementById("appleContainer");
 const resultDisplay = document.getElementById("result");
 const sound = new Audio("../images/macaSoundEffect.mp3");
-const acerto = new Audio("../images/acerto.mp3");
-const erro = new Audio("../images/erro.mp3");
 
 function generateTarget() {
   targetSum = Math.floor(Math.random() * 10) + 1;
@@ -116,10 +114,8 @@ function checkResult() {
   const actualSum = leftApples + rightApples;
 
   if (actualSum === expectedSum) {
-    acerto.play();
     alert("Parabéns! Você acertou! 🎉");
   } else {
-    erro.play();
     alert(
       `Ops! Você colocou ${leftApples} + ${rightApples} = ${actualSum} maçãs, mas o desafio era ${expectedSum} maçãs.`
     );
