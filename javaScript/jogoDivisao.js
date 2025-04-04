@@ -1,15 +1,16 @@
 let score = 0;
-let level = 1;
 let lives = 3;
 let currentAnswer = 0;
 let isGameActive = true;
+let fixedDifficulty = 1; // Dificuldade fixa
+let meteorAnimationTimeout = null;
+let questionTimeout = null;
 
 const spaceship = document.querySelector(".spaceship");
 const meteor = document.querySelector(".meteor");
 const questionContainer = document.querySelector(".question-container");
 const meteorExplosion = document.querySelector(".meteor-explosion");
 const scoreValue = document.getElementById("scoreValue");
-const levelDisplay = document.getElementById("levelDisplay");
 const gameOverScreen = document.getElementById("gameOverScreen");
 const finalScore = document.getElementById("finalScore");
 const restartButton = document.getElementById("restartButton");
@@ -18,69 +19,70 @@ const restartButton = document.getElementById("restartButton");
 startGame();
 
 function startGame() {
+  // Limpa temporizadores pendentes
+  clearTimeout(meteorAnimationTimeout);
+  clearTimeout(questionTimeout);
+  
+  // Esconde elementos
+  meteor.style.display = "none";
+  questionContainer.style.display = "none";
+  meteorExplosion.style.display = "none";
+  
   // Reinicia variáveis
   score = 0;
-  level = 1;
   lives = 3;
   isGameActive = true;
-
+  
   // Atualiza a interface
   scoreValue.textContent = score;
-  levelDisplay.textContent = `Nível ${level}`;
   gameOverScreen.style.display = "none";
-
-  // Inicia animação
-  animateMeteor();
+  
+  // Pequeno delay antes de iniciar
+  setTimeout(() => {
+    // Inicia animação
+    animateMeteor();
+  }, 100);
 }
 
 function animateMeteor() {
   if (!isGameActive) return;
-
-  // Posiciona o meteoro
-  meteor.style.transition = "right 5s linear";
+  
+  // Limpa temporizadores anteriores
+  clearTimeout(meteorAnimationTimeout);
+  clearTimeout(questionTimeout);
+  
+  // Reseta o meteoro
+  meteor.style.display = "block";
+  meteor.style.transform = "scale(1)";
+  meteor.style.transition = "right 4s linear";
   meteor.style.right = "-150px";
-
+  
   // Controle de tempo para mostrar a pergunta
-  setTimeout(() => {
+  meteorAnimationTimeout = setTimeout(() => {
     if (!isGameActive) return;
-
+    
     meteor.style.transition = "none";
     meteor.style.right = "100px";
-
+    
     // Zoom no meteoro
     meteor.style.transition = "transform 0.5s ease";
     meteor.style.transform = "scale(1.5)";
-
+    
     // Mostra a pergunta
-    setTimeout(() => {
+    questionTimeout = setTimeout(() => {
       if (!isGameActive) return;
       generateQuestion();
       questionContainer.style.display = "flex";
     }, 600);
-  }, 4000);
+  }, 1000);
 }
 
 function generateQuestion() {
-  const difficulty = Math.min(level, 5);
   let divisor, dividend;
 
-  // Gera valores baseados na dificuldade
-  if (difficulty === 1) {
-    divisor = Math.floor(Math.random() * 3) + 2; // 2 a 4
-    dividend = divisor * (Math.floor(Math.random() * 5) + 1); // Resultado de 1 a 5
-  } else if (difficulty === 2) {
-    divisor = Math.floor(Math.random() * 4) + 2; // 2 a 5
-    dividend = divisor * (Math.floor(Math.random() * 8) + 3); // Resultado de 3 a 10
-  } else if (difficulty === 3) {
-    divisor = Math.floor(Math.random() * 6) + 2; // 2 a 7
-    dividend = divisor * (Math.floor(Math.random() * 10) + 5); // Resultado de 5 a 14
-  } else if (difficulty === 4) {
-    divisor = Math.floor(Math.random() * 8) + 3; // 3 a 10
-    dividend = divisor * (Math.floor(Math.random() * 12) + 6); // Resultado de 6 a 17
-  } else {
-    divisor = Math.floor(Math.random() * 11) + 5; // 5 a 15
-    dividend = divisor * (Math.floor(Math.random() * 14) + 8); // Resultado de 8 a 21
-  }
+  // Gera valores baseados na dificuldade fixa
+  divisor = Math.floor(Math.random() * 3) + 2; // 2 a 4
+  dividend = divisor * (Math.floor(Math.random() * 5) + 1); // Resultado de 1 a 5
 
   // Define o valor correto da divisão
   currentAnswer = dividend / divisor;
@@ -104,7 +106,6 @@ function generateOptions(correctAnswer) {
       // Gera um número próximo ao correto
       const offset = Math.floor(Math.random() * 5) - 2; // -2 a +2
       wrongAnswer = correctAnswer + offset;
-      // Garante que é um número inteiro positivo diferente do correto
     } while (
       wrongAnswer <= 0 ||
       wrongAnswer === correctAnswer ||
@@ -132,7 +133,7 @@ function checkAnswer(answer) {
 
   if (answer === currentAnswer) {
     // Resposta correta
-    score += level * 10;
+    score += 10;
     scoreValue.textContent = score;
 
     // Explode o meteoro em pedaços
@@ -146,12 +147,6 @@ function checkAnswer(answer) {
       meteorExplosion.style.display = "none";
       meteorExplosion.innerHTML = "";
 
-      // Avança para o próximo nível a cada 3 meteoros
-      if (score % 30 === 0) {
-        level++;
-        levelDisplay.textContent = `Nível ${level}`;
-      }
-
       // Reinicia a animação
       animateMeteor();
     }, 2000);
@@ -164,6 +159,7 @@ function checkAnswer(answer) {
     } else {
       // Reinicia a animação
       meteor.style.transform = "scale(1)";
+      meteor.style.display = "block"; // Garante que o meteoro está visível após resposta incorreta
       animateMeteor();
     }
   }
@@ -171,6 +167,10 @@ function checkAnswer(answer) {
 
 function explodeMeteor(parts) {
   meteorExplosion.style.display = "flex";
+  meteor.style.display = "none";
+
+  // Limpa explosões anteriores
+  meteorExplosion.innerHTML = "";
 
   // Cria partes do meteoro baseado no resultado da divisão
   for (let i = 0; i < parts; i++) {
@@ -179,11 +179,13 @@ function explodeMeteor(parts) {
 
     // Posiciona aleatoriamente
     const angle = (i / parts) * 2 * Math.PI;
-    const distance = 50 + Math.random() * 100;
+    const distance = 50 + Math.random() * 50;
 
     piece.style.left = `calc(50% + ${Math.cos(angle) * distance}px)`;
     piece.style.top = `calc(50% + ${Math.sin(angle) * distance}px)`;
 
+    piece.style.transition = "opacity 2s ease-out, transform 2s ease-out";
+    
     meteorExplosion.appendChild(piece);
 
     // Anima cada peça
@@ -196,6 +198,11 @@ function explodeMeteor(parts) {
 
 function endGame() {
   isGameActive = false;
+  
+  // Limpa temporizadores
+  clearTimeout(meteorAnimationTimeout);
+  clearTimeout(questionTimeout);
+  
   finalScore.textContent = score;
   gameOverScreen.style.display = "flex";
 }
