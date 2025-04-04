@@ -3,7 +3,7 @@ const questoes = [
         id: 1,
         categoria: "ADIÇÃO",
         tipo: "adicao",
-        texto: " Se você tem R$50 e recebe R$25 de mesada, quanto dinheiro você terá ao todo?",
+        texto: " Se você tem 50 reais e recebe 25 reais de mesada, quantos reais você terá ao todo?",
         imagem: "dinheiro",
         resposta: 75
     },
@@ -19,7 +19,7 @@ const questoes = [
         id: 3,
         categoria: "SUBTRAÇÃO",
         tipo: "subtracao",
-        texto: "Você tinha R$40 e gastou R$12 no lanche. Quanto dinheiro você tem agora?",
+        texto: "Você tinha 40 reais e gastou 12 reais no lanche. Quantos reais você tem agora?",
         imagem: "carro",
         resposta: 28
     },
@@ -51,7 +51,7 @@ const questoes = [
         id: 7,
         categoria: "DIVISÃO",
         tipo: "divisao",
-        texto: "Se você tem R$30 e quer comprar livros que custam R$6 cada, quantos livros você poderá comprar?",
+        texto: "Se você tem 30 reais e quer comprar livros que custam 6 reais cada, quantos livros você poderá comprar?",
         imagem: "livros",
         resposta: 15
     },
@@ -75,7 +75,7 @@ const questoes = [
         id: 10,
         categoria: "DIVISÃO",
         tipo: "divisao",
-        texto: "UMA PROFESSORA TEM 24 LÁPIS E QUER DAR O MESMO NÚMERO DE LÁPIS PARA 8 ALUNOS. QUANTOS LÁPIS CADA ALUNO RECEBERÁ?",
+        texto: "Você precisa organizar seus livros em 4 prateleiras. Se você tem 12 livros de matemática, 8 de português e 5 de história, quantos livros você tem no total?",
         imagem: "lapis",
         resposta: 3
     }
