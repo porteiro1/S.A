@@ -1,39 +1,64 @@
-body {
+:root {
+    --color-green: #33a43d;
+    --color-blue: #03a9f4;
+    --color-beige: #f5f5dc;
+  }
+  
+  * {
     margin: 0;
     padding: 0;
-    font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
-    background-color: #fab744;
-    overflow: hidden;
-}
-.header {
-    background-color: #F9B233;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Poppins", sans-serif;
+    background-color: #efb822;
+    letter-spacing: 3px;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+header {
+    background-color: #f5a623;
     color: white;
-    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px;
 }
+
 .logo {
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
 }
-.user-info {
+
+.user-section {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
-.avatar {
+
+.user-icon {
     width: 40px;
     height: 40px;
-    background-color: white;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
 }
-.avatar img {
-    width: 30px;
+
+.voltar img {
+    max-width: 40px;
+    position: absolute;
+    right: 0;
 }
+
 .game-container {
     width: 90%;
     max-width: 800px;
@@ -43,23 +68,26 @@ body {
     border-radius: 20px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
+
 .stars {
     position: absolute;
     width: 100%;
     height: 100%;
     background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogICAgPGRlZnM+CiAgICAgICAgPHJhZGlhbEdyYWRpZW50IGlkPSJnIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI1MCUiIGZ4PSI1MCUiIGZ5PSI1MCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMjQxQjU4IiAvPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxMzA5MzAiIC8+CiAgICAgICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZykiIC8+CiAgICA8ZyBmaWxsPSIjZmZmIj4KICAgICAgICA8Y2lyY2xlIGN4PSIxMCUiIGN5PSIyMCUiIHI9IjAuNSIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSIyNSUiIGN5PSIxNSUiIHI9IjAuMyIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI0MCUiIGN5PSIxMCUiIHI9IjAuNCIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI2MCUiIGN5PSIyNSUiIHI9IjAuNSIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI3NSUiIGN5PSIxNSUiIHI9IjAuMyIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI4NSUiIGN5PSIzMCUiIHI9IjAuNCIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSIxNSUiIGN5PSI0NSUiIHI9IjAuMyIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSIzMCUiIGN5PSI1NSUiIHI9IjAuNSIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI1MCUiIGN5PSI0MCUiIHI9IjAuMyIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI2NSUiIGN5PSI2MCUiIHI9IjAuNCIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI4MCUiIGN5PSI0NSUiIHI9IjAuMyIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI5MCUiIGN5PSI3MCUiIHI9IjAuNSIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSIxNSUiIGN5PSI3NSUiIHI9IjAuNCIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSIzMCUiIGN5PSI4NSUiIHI9IjAuMyIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI0NSUiIGN5PSI3MCUiIHI9IjAuNSIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI2MCUiIGN5PSI4MCUiIHI9IjAuMyIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI3NSUiIGN5PSI5MCUiIHI9IjAuNCIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSI5MCUiIGN5PSI4NSUiIHI9IjAuMyIgLz4KICAgIDwvZz4KPC9zdmc+') center/cover no-repeat;
 }
+
 .spaceship {
     position: absolute;
-    width: 80px;
-    height: 40px;
+    width: 130px;
+    height: 80px;
     left: 50px;
     top: 180px;
     transition: top 0.5s ease;
     z-index: 10;
+    filter: drop-shadow(0 0 10px rgba(0, 119, 255, 0.7));
 }
+
 .meteor {
     position: absolute;
     width: 100px;
@@ -69,6 +97,7 @@ body {
     transition: transform 0.5s ease;
     z-index: 5;
 }
+
 .question-container {
     position: absolute;
     width: 100%;
@@ -80,12 +109,14 @@ body {
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 20;
 }
+
 .question {
     font-size: 32px;
     color: white;
     margin-bottom: 20px;
     text-align: center;
 }
+
 .options {
     display: flex;
     flex-wrap: wrap;
@@ -93,6 +124,7 @@ body {
     gap: 15px;
     margin-top: 10px;
 }
+
 .option {
     background-color: #F9B233;
     color: white;
@@ -102,9 +134,11 @@ body {
     cursor: pointer;
     transition: transform 0.2s;
 }
+
 .option:hover {
     transform: scale(1.1);
 }
+
 .meteor-explosion {
     position: absolute;
     width: 100px;
@@ -114,6 +148,7 @@ body {
     display: none;
     z-index: 15;
 }
+
 .meteor-piece {
     position: absolute;
     width: 30px;
@@ -122,6 +157,7 @@ body {
     border-radius: 50%;
     transition: all 1s ease;
 }
+
 .score-container {
     display: flex;
     justify-content: center;
@@ -129,55 +165,43 @@ body {
     font-size: 18px;
     margin-top: 10px;
 }
+
 .score {
     background-color: #0077FF;
     padding: 5px 15px;
     border-radius: 20px;
 }
+
 .footer {
     display: flex;
     justify-content: flex-end;
     padding: 10px 20px;
 }
+
 .logo-sesi {
     width: 120px;
 }
-.mode-toggle {
-    background-color: white;
-    border-radius: 20px;
-    padding: 5px 15px;
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-}
-.toggle-circle {
-    width: 20px;
-    height: 20px;
-    background-color: #F9B233;
-    border-radius: 50%;
-}
-.toggle-label {
-    margin-left: 10px;
-    font-weight: bold;
-}
+
 #gameOverScreen {
+    display: none; /* Inicialmente escondido */
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.8);
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 30;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    z-index: 1000;
 }
+
 #gameOverScreen h2 {
     color: white;
     font-size: 32px;
     margin-bottom: 20px;
 }
+
 #restartButton {
     background-color: #F9B233;
     color: white;
@@ -187,6 +211,7 @@ body {
     cursor: pointer;
     border: none;
 }
+
 #levelDisplay {
     position: absolute;
     top: 10px;
@@ -197,11 +222,12 @@ body {
     border-radius: 5px;
     font-size: 14px;
 }
+
 footer {
     color: white;
     text-align: right;
     padding: 15px;
-    background-color: #F9B233;
+    background-color: #f5a623;
   }
   
   footer img {

@@ -207,18 +207,5 @@ function endGame() {
   gameOverScreen.style.display = "flex";
 }
 
-// Adiciona controles da nave com as setas
-document.addEventListener("keydown", (e) => {
-  if (!isGameActive) return;
-
-  const currentTop = parseInt(window.getComputedStyle(spaceship).top);
-
-  if (e.key === "ArrowUp" && currentTop > 20) {
-    spaceship.style.top = `${currentTop - 15}px`;
-  } else if (e.key === "ArrowDown" && currentTop < 340) {
-    spaceship.style.top = `${currentTop + 15}px`;
-  }
-});
-
 // Reinicia o jogo
 restartButton.addEventListener("click", startGame);
