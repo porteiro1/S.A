@@ -297,33 +297,139 @@ function mostrarResultado() {
 
 // Exportar os resultados
 function exportarResultados() {
-    // Preparar os dados para exportação
-    const dadosExportacao = {
-        data: new Date().toISOString(),
-        pontuacao: respostas.filter(r => r && r.acertou).length,
-        totalQuestoes: questoes.length,
-        respostas: respostas
-    };
+    // Criar uma nova instância do jsPDF
+    const doc = new jspdf.jsPDF();
     
-    // Criar um arquivo JSON para download
-    const conteudoArquivo = JSON.stringify(dadosExportacao, null, 2);
-    const blob = new Blob([conteudoArquivo], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
+    // Configurações iniciais
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 20;
+    let yPosition = 20;
     
-    // Criar um link para download e clicar nele
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `quiz-matematica-${new Date().toISOString().slice(0, 10)}.json`;
-    document.body.appendChild(a);
-    a.click();
+    // Cabeçalho do relatório
+    doc.setFontSize(20);
+    doc.setTextColor(44, 95, 188); // Azul padrão do tema
+    doc.text("Relatório do Quiz de Matemática", pageWidth/2, yPosition, {align: 'center'});
+    yPosition += 15;
     
-    // Limpar
-    setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }, 0);
+    // Informações gerais
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    const dataHora = new Date().toLocaleString();
+    doc.text(`Data: ${dataHora}`, margin, yPosition);
+    yPosition += 10;
     
-    alert('Resultados exportados com sucesso!');
+    // Pontuação
+    const acertos = respostas.filter(r => r && r.acertou).length;
+    doc.text(`Pontuação: ${acertos}/${questoes.length}`, margin, yPosition);
+    yPosition += 10;
+    
+    const percentual = Math.round((acertos / questoes.length) * 100);
+    doc.text(`Desempenho: ${percentual}%`, margin, yPosition);
+    yPosition += 20;
+    
+    // Linha divisória
+    doc.setDrawColor(200, 200, 200);
+    doc.line(margin, yPosition, pageWidth - margin, yPosition);
+    yPosition += 15;
+    
+    // Título da seção de detalhes
+    doc.setFontSize(16);
+    doc.setTextColor(44, 95, 188);
+    doc.text("Detalhes por Questão", margin, yPosition);
+    yPosition += 15;
+    
+    // Resumo das respostas
+    doc.setFontSize(11);
+    doc.setTextColor(0, 0, 0);
+    
+    respostas.forEach((resposta, index) => {
+        if (!resposta) return;
+        
+        const questao = questoes.find(q => q.id === resposta.questaoId);
+        
+        // Verificar se precisa adicionar uma nova página
+        if (yPosition > 250) {
+            doc.addPage();
+            yPosition = 20;
+        }
+        
+        // Número e texto da questão
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.text(`Questão ${resposta.questaoId}: ${questao.categoria}`, margin, yPosition);
+        yPosition += 7;
+        
+        // Texto da questão
+        doc.setFontSize(10);
+        const textoLimpo = questao.texto.replace(/<[^>]*>/g, ''); // Remove tags HTML
+        doc.text(textoLimpo, margin, yPosition);
+        yPosition += 10;
+        
+        // Respostas
+        doc.text(`Sua resposta: ${resposta.respostaUsuario}`, margin + 5, yPosition);
+        yPosition += 6;
+        doc.text(`Resposta correta: ${resposta.respostaCorreta}`, margin + 5, yPosition);
+        yPosition += 6;
+        
+        // Status (correto/incorreto)
+        if (resposta.acertou) {
+            doc.setTextColor(51, 164, 61); // Verde
+            doc.text("✓ Correto", margin + 5, yPosition);
+        } else {
+            doc.setTextColor(244, 67, 54); // Vermelho
+            doc.text("✗ Incorreto", margin + 5, yPosition);
+        }
+        doc.setTextColor(0, 0, 0);
+        
+        yPosition += 15;
+    });
+    
+    // Adicionar análise por categoria
+    yPosition += 5;
+    doc.setFontSize(16);
+    doc.setTextColor(44, 95, 188);
+    doc.text("Análise por Categoria", margin, yPosition);
+    yPosition += 15;
+    
+    // Calcular desempenho por categoria
+    const categorias = {};
+    questoes.forEach(q => {
+        if (!categorias[q.categoria]) {
+            categorias[q.categoria] = { total: 0, acertos: 0 };
+        }
+        categorias[q.categoria].total++;
+        
+        const resposta = respostas.find(r => r && r.questaoId === q.id);
+        if (resposta && resposta.acertou) {
+            categorias[q.categoria].acertos++;
+        }
+    });
+    
+    // Exibir desempenho por categoria
+    doc.setFontSize(11);
+    Object.keys(categorias).forEach(categoria => {
+        const dados = categorias[categoria];
+        const percentualCategoria = Math.round((dados.acertos / dados.total) * 100);
+        
+        doc.setTextColor(0, 0, 0);
+        doc.text(`${categoria}: ${dados.acertos}/${dados.total} (${percentualCategoria}%)`, margin, yPosition);
+        yPosition += 8;
+    });
+    
+    // Adicionar mensagem final
+    yPosition += 10;
+    doc.setFontSize(12);
+    doc.setTextColor(44, 95, 188);
+    if (percentual >= 80) {
+        doc.text("Parabéns pelo excelente desempenho!", margin, yPosition);
+    } else if (percentual >= 60) {
+        doc.text("Bom trabalho! Continue praticando.", margin, yPosition);
+    } else {
+        doc.text("Continue praticando para melhorar seu desempenho.", margin, yPosition);
+    }
+    
+    // Salvar o PDF
+    doc.save(`quiz-matematica-${new Date().toISOString().slice(0, 10)}.pdf`);
 }
 
 // Reiniciar o quiz
