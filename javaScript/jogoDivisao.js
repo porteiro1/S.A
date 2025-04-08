@@ -278,3 +278,25 @@ function endGame() {
 
 // Reinicia o jogo
 restartButton.addEventListener("click", startGame);
+
+function resetGameState() {
+  // Cancela temporizadores ativos
+  clearTimeout(meteorAnimationTimeout);
+  clearTimeout(questionTimeout);
+
+  // Remove elementos desnecessários do DOM
+  meteorExplosion.innerHTML = "";
+  questionContainer.style.display = "none";
+  meteor.style.display = "none";
+
+  // Reseta variáveis relacionadas ao estado do jogo (exceto o score)
+  lives = 3;
+  currentAnswer = 0;
+  isGameActive = false;
+  fixedDifficulty = 1;
+
+  // Atualiza o debug para refletir o estado limpo
+  updateDebugDisplay();
+
+  console.log("Game state has been reset (except for the score).");
+}
