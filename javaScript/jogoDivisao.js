@@ -1,281 +1,382 @@
+// Código completamente redesenhado para resolver problemas de travamento
+// Variáveis globais minimalistas
 let score = 0;
 let lives = 3;
+let currentLevel = 1;
+let isRunning = false;
 let currentAnswer = 0;
-let isGameActive = false; // Start as false and set to true only when game begins
-let fixedDifficulty = 1; 
-let meteorAnimationTimeout = null;
-let questionTimeout = null;
-let debugMode = true; // Habilita o modo de debug
 
-const spaceship = document.querySelector(".spaceship");
-const meteor = document.querySelector(".meteor");
-const questionContainer = document.querySelector(".question-container");
-const meteorExplosion = document.querySelector(".meteor-explosion");
-const scoreValue = document.getElementById("scoreValue");
-const gameOverScreen = document.getElementById("gameOverScreen");
-const finalScore = document.getElementById("finalScore");
-const restartButton = document.getElementById("restartButton");
+// Cache de elementos DOM - acessados apenas uma vez
+const elemCache = {
+  spaceship: document.querySelector(".spaceship"),
+  meteor: document.querySelector(".meteor"),
+  question: document.querySelector(".question-container"),
+  explosion: document.querySelector(".meteor-explosion"),
+  scoreDisplay: document.getElementById("scoreValue"),
+  gameOver: document.getElementById("gameOverScreen"),
+  finalScore: document.getElementById("finalScore"),
+  restartBtn: document.getElementById("restartButton"),
+  levelDisplay: document.getElementById("levelDisplay"),
+  dividend: document.getElementById("dividend"),
+  divisor: document.getElementById("divisor"),
+  options: Array.from(document.querySelectorAll(".option"))
+};
 
-// Cria elementos de debug
-const debugPanel = document.createElement("div");
-debugPanel.id = "debugPanel";
-debugPanel.style.position = "absolute";
-debugPanel.style.top = "10px";
-debugPanel.style.right = "10px";
-debugPanel.style.background = "rgba(0,0,0,0.7)";
-debugPanel.style.color = "lime";
-debugPanel.style.padding = "10px";
-debugPanel.style.borderRadius = "5px";
-debugPanel.style.fontFamily = "monospace";
-debugPanel.style.zIndex = "1000";
-debugPanel.innerHTML = `
-  <div>DEBUG MODE</div>
-  <div>Vidas: <span id="debugLives">3</span></div>
-  <div>Resposta: <span id="debugAnswer">-</span></div>
-  <button id="toggleDebug">Toggle Debug</button>
-`;
-document.body.appendChild(debugPanel);
+// Gestor de animações - para evitar memória residual
+class AnimationManager {
+  constructor() {
+    this.timers = [];
+    this.running = false;
+    this.meteorPosition = { x: -150, y: 150 };
+  }
 
-// Botão para alternar debug
-document.getElementById("toggleDebug").addEventListener("click", () => {
-  debugMode = !debugMode;
-  updateDebugDisplay();
-});
+  // Limpa todas as animações
+  reset() {
+    this.timers.forEach(timer => clearTimeout(timer));
+    this.timers = [];
+    this.running = false;
+  }
 
-function updateDebugDisplay() {
-  if (debugMode) {
-    document.getElementById("debugLives").textContent = lives;
-    document.getElementById("debugAnswer").textContent = currentAnswer;
-    debugPanel.style.display = "block";
-  } else {
-    debugPanel.style.display = "none";
+  // Adiciona um novo timer e retorna seu ID
+  addTimer(callback, delay) {
+    const id = setTimeout(() => {
+      // Remove o timer da lista quando executado
+      this.timers = this.timers.filter(t => t !== id);
+      if (this.running) callback();
+    }, delay);
+    this.timers.push(id);
+    return id;
+  }
+
+  // Inicia a sequência de animação do meteoro
+  startMeteorSequence() {
+    if (!this.running) return;
+    
+    // Reset visual
+    elemCache.meteor.style.transition = "none";
+    elemCache.meteor.style.right = "-150px";
+    elemCache.meteor.style.transform = "scale(1)";
+    elemCache.meteor.style.display = "block";
+    elemCache.question.style.display = "none";
+    
+    // Forçar reflow para aplicar mudanças visuais imediatamente
+    void elemCache.meteor.offsetWidth;
+    
+    // Primeira fase - animação do meteoro
+    elemCache.meteor.style.transition = "right 3s linear";
+    elemCache.meteor.style.right = "100px";
+    
+    // Segunda fase - zoom e questão
+    this.addTimer(() => {
+      if (!this.running) return;
+      
+      elemCache.meteor.style.transition = "transform 0.3s ease";
+      elemCache.meteor.style.transform = "scale(1.3)";
+      
+      this.addTimer(() => {
+        if (!this.running) return;
+        // Gera uma nova questão e exibe
+        generateQuestion();
+        elemCache.question.style.display = "flex";
+      }, 400);
+    }, 1000);
   }
 }
 
-// Inicializa o jogo
-startGame();
-
-function startGame() {
-  // Limpa temporizadores pendentes
-  clearTimeout(meteorAnimationTimeout);
-  clearTimeout(questionTimeout);
-  
-  // Esconde elementos
-  meteor.style.display = "none";
-  questionContainer.style.display = "none";
-  meteorExplosion.style.display = "none";
-  
-  // Reinicia todas as variáveis de jogo
-  score = 0;
-  lives = 3;
-  currentAnswer = 0;
-  isGameActive = true;
-  fixedDifficulty = 1;
-  
-  // Limpa explosões
-  meteorExplosion.innerHTML = "";
-  
-  // Atualiza a interface
-  scoreValue.textContent = score;
-  gameOverScreen.style.display = "none";
-  
-  // Atualiza o debug
-  updateDebugDisplay();
-  
-  // Pequeno delay antes de iniciar
-  setTimeout(() => {
-    // Inicia animação
-    animateMeteor();
-  }, 100);
-}
-
-function animateMeteor() {
-  if (!isGameActive) return;
-  
-  // Limpa temporizadores anteriores
-  clearTimeout(meteorAnimationTimeout);
-  clearTimeout(questionTimeout);
-  
-  // Reseta o meteoro e dados temporários relacionados à equação atual
-  // (mantém apenas o score e vidas)
-  currentAnswer = 0;
-  meteor.style.display = "block";
-  meteor.style.transform = "scale(1)";
-  meteor.style.transition = "right 4s linear";
-  meteor.style.right = "-150px";
-  
-  // Limpa respostas anteriores
-  questionContainer.style.display = "none";
-  
-  // Atualiza o debug
-  updateDebugDisplay();
-  
-  // Controle de tempo para mostrar a pergunta
-  meteorAnimationTimeout = setTimeout(() => {
-    if (!isGameActive) return;
-    
-    meteor.style.transition = "none";
-    meteor.style.right = "100px";
-    
-    // Zoom no meteoro
-    meteor.style.transition = "transform 0.5s ease";
-    meteor.style.transform = "scale(1.5)";
-    
-    // Mostra a pergunta
-    questionTimeout = setTimeout(() => {
-      if (!isGameActive) return;
-      generateQuestion();
-      questionContainer.style.display = "flex";
-    }, 600);
-  }, 1000);
-}
-
-function generateQuestion() {
-  // Zera dados da equação anterior, mantém apenas o score
-  currentAnswer = 0;
-  
-  // Limpa os event listeners anteriores das opções
-  const options = Array.from(document.querySelectorAll(".option"));
-  options.forEach(option => {
-    // Remove event listeners anteriores
-    const newOption = option.cloneNode(true);
-    option.parentNode.replaceChild(newOption, option);
-  });
-  
-  let divisor, dividend;
-
-  // Gera valores baseados na dificuldade fixa
-  divisor = Math.floor(Math.random() * 3) + 2; // 2 a 4
-  dividend = divisor * (Math.floor(Math.random() * 5) + 1); // Resultado de 1 a 5
-
-  // Define o valor correto da divisão
-  currentAnswer = dividend / divisor;
-
-  // Atualiza os elementos na tela
-  document.getElementById("dividend").textContent = dividend;
-  document.getElementById("divisor").textContent = divisor;
-
-  // Atualiza o debug com a resposta correta
-  updateDebugDisplay();
-
-  // Gera as opções
-  generateOptions(currentAnswer);
-}
-
-function generateOptions(correctAnswer) {
-  const options = Array.from(document.querySelectorAll(".option"));
-
-  // Gera opções incorretas
-  let wrongAnswers = [];
-  for (let i = 0; i < 3; i++) {
-    let wrongAnswer;
-    do {
-      // Gera um número próximo ao correto
-      const offset = Math.floor(Math.random() * 5) - 2; // -2 a +2
-      wrongAnswer = correctAnswer + offset;
-    } while (
-      wrongAnswer <= 0 ||
-      wrongAnswer === correctAnswer ||
-      wrongAnswers.includes(wrongAnswer)
-    );
-
-    wrongAnswers.push(wrongAnswer);
+// Engine do jogo - contém toda a lógica para facilitar limpeza de memória
+class GameEngine {
+  constructor() {
+    this.animator = new AnimationManager();
+    this.setupEventListeners();
+    this.explosionPieces = [];
+    this.preCreateExplosion();
   }
-
-  // Adiciona a resposta correta
-  wrongAnswers.push(correctAnswer);
-
-  // Embaralha as opções
-  wrongAnswers.sort(() => Math.random() - 0.5);
-
-  // Atribui às opções
-  options.forEach((option, index) => {
-    option.textContent = wrongAnswers[index];
-    option.onclick = () => checkAnswer(wrongAnswers[index]);
-  });
-}
-
-function checkAnswer(answer) {
-  questionContainer.style.display = "none";
-
-  if (answer === currentAnswer) {
-    // Resposta correta
-    score += 10;
-    scoreValue.textContent = score;
-
-    // Explode o meteoro em pedaços
-    explodeMeteor(currentAnswer);
-
-    // Aguarda um pouco e continua o jogo
-    setTimeout(() => {
-      if (!isGameActive) return;
-
-      meteor.style.transform = "scale(1)";
-      meteorExplosion.style.display = "none";
-      meteorExplosion.innerHTML = "";
-
-      // Reinicia a animação com nova equação
-      animateMeteor();
-    }, 2000);
-  } else {
-    // Resposta incorreta
-    lives--;
-    // Atualiza o debug imediatamente ao perder vida
-    updateDebugDisplay();
-
-    if (lives <= 0) {
-      endGame();
-    } else {
-      // Reinicia a animação com nova equação
-      meteor.style.transform = "scale(1)";
-      meteor.style.display = "block"; // Garante que o meteoro está visível após resposta incorreta
-      animateMeteor();
+  
+  // Configura listeners de eventos uma única vez
+  setupEventListeners() {
+    elemCache.restartBtn.addEventListener("click", () => this.start());
+    
+    // Configurar options com delegação de eventos
+    const optionsContainer = document.querySelector(".options");
+    optionsContainer.addEventListener("click", (e) => {
+      if (e.target.classList.contains("option")) {
+        const value = Number(e.target.textContent);
+        this.checkAnswer(value);
+      }
+    });
+  }
+  
+  // Pré-cria elementos de explosão para reutilização
+  preCreateExplosion() {
+    // Limpar explosões anteriores
+    elemCache.explosion.innerHTML = "";
+    this.explosionPieces = [];
+    
+    // Criar 10 elementos reutilizáveis
+    for (let i = 0; i < 10; i++) {
+      const piece = document.createElement("div");
+      piece.className = "meteor-piece";
+      piece.style.display = "none";
+      elemCache.explosion.appendChild(piece);
+      this.explosionPieces.push(piece);
     }
   }
-}
-
-function explodeMeteor(parts) {
-  meteorExplosion.style.display = "flex";
-  meteor.style.display = "none";
-
-  // Limpa explosões anteriores
-  meteorExplosion.innerHTML = "";
-
-  // Cria partes do meteoro baseado no resultado da divisão
-  for (let i = 0; i < parts; i++) {
-    const piece = document.createElement("div");
-    piece.className = "meteor-piece";
-
-    // Posiciona aleatoriamente
-    const angle = (i / parts) * 2 * Math.PI;
-    const distance = 50 + Math.random() * 50;
-
-    piece.style.left = `calc(50% + ${Math.cos(angle) * distance}px)`;
-    piece.style.top = `calc(50% + ${Math.sin(angle) * distance}px)`;
-
-    piece.style.transition = "opacity 2s ease-out, transform 2s ease-out";
+  
+  // Inicia ou reinicia o jogo
+  start() {
+    // Limpe todos os timers e animações
+    this.animator.reset();
+    this.animator.running = true;
     
-    meteorExplosion.appendChild(piece);
-
-    // Anima cada peça
+    // Reset do estado do jogo
+    score = 0;
+    lives = 3;
+    currentLevel = 1;
+    isRunning = true;
+    
+    // Reset visual
+    elemCache.scoreDisplay.textContent = "0";
+    elemCache.meteor.style.display = "none";
+    elemCache.question.style.display = "none";
+    elemCache.explosion.style.display = "none";
+    elemCache.gameOver.style.display = "none";
+    elemCache.levelDisplay.textContent = `Nível ${currentLevel}`;
+    
+    // Limpa explosões anteriores
+    this.explosionPieces.forEach(piece => {
+      piece.style.display = "none";
+    });
+    
+    // Inicia a primeira animação após um curto delay
     setTimeout(() => {
-      piece.style.transform = `scale(${0.5 + Math.random() * 0.5})`;
-      piece.style.opacity = "0";
-    }, 100);
+      if (isRunning) this.animator.startMeteorSequence();
+    }, 500);
+  }
+  
+  // Verifica a resposta do usuário
+  checkAnswer(answer) {
+    if (!isRunning) return;
+    
+    elemCache.question.style.display = "none";
+    
+    if (answer === currentAnswer) {
+      // Resposta correta
+      score += 10;
+      elemCache.scoreDisplay.textContent = score;
+      
+      // Atualiza nível a cada 50 pontos
+      const newLevel = Math.floor(score / 50) + 1;
+      if (newLevel > currentLevel) {
+        currentLevel = newLevel;
+        elemCache.levelDisplay.textContent = `Nível ${currentLevel}`;
+      }
+      
+      // Mostra explosão
+      this.showExplosion();
+      
+      // Continua o jogo após um delay
+      setTimeout(() => {
+        if (!isRunning) return;
+        
+        elemCache.explosion.style.display = "none";
+        this.explosionPieces.forEach(piece => {
+          piece.style.display = "none";
+          piece.style.opacity = "1";
+          piece.style.transform = "none";
+        });
+        
+        // Próxima sequência
+        this.animator.startMeteorSequence();
+      }, 1500);
+    } else {
+      // Resposta incorreta
+      lives--;
+      
+      if (lives <= 0) {
+        this.endGame();
+      } else {
+        // Continua com nova animação
+        this.animator.startMeteorSequence();
+      }
+    }
+  }
+  
+  // Mostra animação de explosão
+  showExplosion() {
+    elemCache.meteor.style.display = "none";
+    elemCache.explosion.style.display = "block";
+    
+    // Determina quantas peças usar (baseado na resposta)
+    const piecesToUse = Math.min(currentAnswer, this.explosionPieces.length);
+    
+    // Reinicia todas as peças
+    this.explosionPieces.forEach(piece => {
+      piece.style.display = "none";
+      piece.style.opacity = "1";
+      piece.style.transform = "scale(1)";
+      piece.style.transition = "none";
+    });
+    
+    // Configura e anima as peças
+    for (let i = 0; i < piecesToUse; i++) {
+      const piece = this.explosionPieces[i];
+      piece.style.display = "block";
+      
+      // Posição baseada no ângulo
+      const angle = (i / piecesToUse) * Math.PI * 2;
+      const distance = 30 + Math.random() * 40;
+      piece.style.left = `calc(50% + ${Math.cos(angle) * distance}px)`;
+      piece.style.top = `calc(50% + ${Math.sin(angle) * distance}px)`;
+      
+      // Força reflow para aplicar posição antes de iniciar animação
+      void piece.offsetWidth;
+      
+      // Aplica transição suave
+      piece.style.transition = "transform 1.5s ease-out, opacity 1.5s ease-out";
+      
+      // Atrasa cada peça ligeiramente
+      setTimeout(() => {
+        piece.style.transform = `scale(${0.3 + Math.random() * 0.5}) translate(${Math.cos(angle) * 20}px, ${Math.sin(angle) * 20}px)`;
+        piece.style.opacity = "0";
+      }, i * 50);
+    }
+  }
+  
+  // Finaliza o jogo
+  endGame() {
+    isRunning = false;
+    this.animator.running = false;
+    this.animator.reset();
+    
+    elemCache.finalScore.textContent = score;
+    elemCache.gameOver.style.display = "flex";
   }
 }
 
-function endGame() {
-  isGameActive = false;
+// Gera uma nova pergunta de divisão
+function generateQuestion() {
+  // Ajusta dificuldade com base no nível
+  const maxDivisor = Math.min(currentLevel + 2, 10);
+  const divisor = Math.max(2, Math.floor(Math.random() * maxDivisor));
   
-  // Limpa temporizadores
-  clearTimeout(meteorAnimationTimeout);
-  clearTimeout(questionTimeout);
+  // Gera um dividendo que resulta em um número inteiro
+  const maxResult = Math.min(currentLevel + 4, 12); 
+  const result = Math.floor(Math.random() * maxResult) + 1;
+  const dividend = divisor * result;
   
-  finalScore.textContent = score;
-  gameOverScreen.style.display = "flex";
+  // Define a resposta correta
+  currentAnswer = result;
+  
+  // Atualiza o texto da pergunta
+  elemCache.dividend.textContent = dividend;
+  elemCache.divisor.textContent = divisor;
+  
+  // Gera as opções de resposta
+  generateOptions(result);
 }
 
+// Gera as opções de resposta
+function generateOptions(correctAnswer) {
+  const options = elemCache.options;
+  
+  // Cria um conjunto de possíveis respostas incluindo a correta
+  const possibleAnswers = new Set([correctAnswer]);
+  
+  // Adiciona opções incorretas
+  while (possibleAnswers.size < 4) {
+    // Gera números próximos à resposta correta
+    let offset = Math.floor(Math.random() * 5) - 2; // -2 a +2
+    if (offset === 0) offset = [-3, 3][Math.floor(Math.random() * 2)];
+    
+    const newAnswer = correctAnswer + offset;
+    if (newAnswer > 0) possibleAnswers.add(newAnswer);
+  }
+  
+  // Converte para array e embaralha
+  const shuffledAnswers = Array.from(possibleAnswers);
+  for (let i = shuffledAnswers.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledAnswers[i], shuffledAnswers[j]] = [shuffledAnswers[j], shuffledAnswers[i]];
+  }
+  
+  // Atribui às opções (no máximo 4)
+  const maxOptions = Math.min(options.length, shuffledAnswers.length);
+  for (let i = 0; i < maxOptions; i++) {
+    options[i].textContent = shuffledAnswers[i];
+  }
+}
+
+// Reduz a complexidade de animações SVG que podem causar problemas de performance
+function optimizeSVG() {
+  const spaceship = document.querySelector(".spaceship svg");
+  if (spaceship) {
+    // Remove gradientes complexos e efeitos de animação que podem consumir recursos
+    const glowElements = spaceship.querySelectorAll(".spaceship-glow");
+    glowElements.forEach(el => el.remove());
+    
+    // Simplifica os thruster/propulsores
+    const thrusters = spaceship.querySelectorAll(".thruster-main, .thruster-secondary");
+    thrusters.forEach(el => {
+      el.style.animation = "none";
+    });
+  }
+}
+
+// Detecta problemas de performance
+function setupPerformanceMonitoring() {
+  let lastTime = performance.now();
+  let frames = 0;
+  let lowFPSCount = 0;
+  
+  function checkPerformance() {
+    frames++;
+    const now = performance.now();
+    const elapsed = now - lastTime;
+    
+    // A cada segundo, verifica a taxa de quadros
+    if (elapsed >= 1000) {
+      const fps = Math.round((frames * 1000) / elapsed);
+      console.log(`FPS: ${fps}`);
+      
+      // Se FPS for muito baixo, tenta otimizar ainda mais
+      if (fps < 30) {
+        lowFPSCount++;
+        console.log(`Baixo FPS detectado (${lowFPSCount})`);
+        
+        // Após múltiplas detecções de baixo FPS, simplifica ainda mais o jogo
+        if (lowFPSCount >= 3) {
+          console.log("Aplicando otimizações de emergência");
+          emergencyOptimizations();
+          lowFPSCount = 0;
+        }
+      } else {
+        lowFPSCount = Math.max(0, lowFPSCount - 1);
+      }
+      
+      frames = 0;
+      lastTime = now;
+    }
+    
+    requestAnimationFrame(checkPerformance);
+  }
+  
+  // Inicia o monitoramento de performance
+  requestAnimationFrame(checkPerformance);
+}
+
+// Otimizações adicionais para casos extremos
+function emergencyOptimizations() {
+  // Remove completamente efeitos visuais
+  document.querySelectorAll(".meteor-piece").forEach(el => {
+    el.style.transition = "none";
+  });
+  
+  // Simplifica ainda mais o SVG
+  const stars = document.querySelector(".stars");
+  if (stars) stars.style.display = "none";
+}
+
+<<<<<<< Updated upstream
 // Reinicia o jogo
 restartButton.addEventListener("click", startGame);
 
@@ -300,3 +401,17 @@ function resetGameState() {
 
   console.log("Game state has been reset (except for the score).");
 }
+=======
+// Inicializa o jogo
+document.addEventListener("DOMContentLoaded", function() {
+  // Aplica otimizações no SVG
+  optimizeSVG();
+  
+  // Configura monitoramento de performance
+  setupPerformanceMonitoring();
+  
+  // Cria e inicia o engine do jogo
+  const game = new GameEngine();
+  game.start();
+});
+>>>>>>> Stashed changes
