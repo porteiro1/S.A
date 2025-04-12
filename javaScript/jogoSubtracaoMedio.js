@@ -31,8 +31,8 @@ function resetGame() {
   rightBaskets = 0;
   leftBuckets = 0;
   rightBuckets = 0;
-  appleContainer.innerHTML = "";
-  basketContainer.innerHTML = "";
+  appleContainer.innerHTML = "Representa 1";
+  basketContainer.innerHTML = "Representa 5";
 
   // Reset drop areas - corrigido
   dropAreas.forEach((area) => {
