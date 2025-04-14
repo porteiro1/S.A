@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/jogoMacaDivisao.css">
 </head>
+
 <body>
   <div class="container">
     <header>
@@ -16,38 +18,38 @@
         <span>Olá Estudante!</span>
       </div>
     </header>
-    
+
     <div class="game-area">
       <div class="game-board">
         <div class="game-container">
           <h2>Desafio de Divisão</h2>
-          
+
           <div class="problem-container">
             <p>Divida <span id="totalApples">8</span> maçãs igualmente entre 2 pessoas.</p>
             <p class="division-operation" id="result">8 ÷ 2 = ?</p>
           </div>
-          
+
           <div class="top-section">
             <div class="plate-container">
               <div class="person-icon">👧</div>
               <div class="plate" id="leftPersonPlate"></div>
               <div class="plate-count">Pessoa 1: <span id="leftCount">0</span></div>
             </div>
-            
+
             <div class="plate-container">
               <div class="person-icon">👦</div>
               <div class="plate" id="rightPersonPlate"></div>
               <div class="plate-count">Pessoa 2: <span id="rightCount">0</span></div>
             </div>
           </div>
-          
+
           <div class="bottom-section">
             <h3>Distribua as maçãs</h3>
             <div class="apple-container" id="appleContainer">
               <!-- Apples will be generated here -->
             </div>
           </div>
-          
+
           <div class="actions">
             <button onclick="checkResult()">Verificar</button>
             <button onclick="generateTarget()">Novo Desafio</button>
@@ -55,11 +57,12 @@
         </div>
       </div>
     </div>
-    
+
     <footer>
       <img src="/api/placeholder/100/40" alt="Mathema Quest Logo">
     </footer>
   </div>
 </body>
-  <script src="/javaScript/jogoDivisaoMacas.js"></script>
+<script src="/javaScript/jogoDivisaoMacas.js"></script>
+
 </html>
