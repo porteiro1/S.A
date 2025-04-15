@@ -23,6 +23,12 @@ body {
   height: 100vh;
 }
 
+.voltar img {
+  max-width: 40px;
+  position: absolute;
+  right: 0;
+}
+
 header {
   background-color: var(--color-primary);
   color: white;
