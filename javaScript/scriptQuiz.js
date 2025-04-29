@@ -37,7 +37,7 @@ const questoes = [
         tipo: "subtracao",
         texto: "Você tem 30 minutos para fazer a lição de casa e já se passaram 18 minutos. Quantos <strong>segundos</strong> você ainda tem?",
         imagem: "relogio",
-        resposta: 9
+        resposta: 720
     },
     {
         id: 6,
@@ -53,7 +53,7 @@ const questoes = [
         tipo: "divisao",
         texto: "Se você tem 30 reais e quer comprar livros que custam 6 reais cada, quantos livros você poderá comprar?",
         imagem: "livros",
-        resposta: 15
+        resposta: 5
     },
     {
         id: 8,
@@ -61,7 +61,7 @@ const questoes = [
         tipo: "divisao",
         texto: "Você precisa organizar 36 lápis em 3 estojos. Quantos lápis você colocará em cada estojo?",
         imagem: "lapis",
-        resposta: 24
+        resposta: 12
     },
     {
         id: 9,
@@ -69,15 +69,15 @@ const questoes = [
         tipo: "multiplicacao",
         texto: "Você precisa comprar 3 cadernos que custam R$ 15 cada e 2 canetas que custam R$3 cada. Quanto você gastará no total?",
         imagem: "bala",
-        resposta: 6
+        resposta: 51
     },
     {
         id: 10,
         categoria: "DIVISÃO",
         tipo: "divisao",
-        texto: "Você precisa organizar seus livros em 4 prateleiras. Se você tem 12 livros de matemática, 8 de português e 5 de história, quantos livros você tem no total?",
+        texto: "Você precisa organizar seus livros em 4 prateleiras. Se você tem 12 livros de matemática, 8 de português e 4 de história, quantos livros ficarão em cada prateleira?",
         imagem: "lapis",
-        resposta: 3
+        resposta: 6
     }
 ];
 
