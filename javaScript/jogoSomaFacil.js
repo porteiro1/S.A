@@ -124,6 +124,7 @@ function checkResult() {
       `Ops! Você colocou ${leftApples} + ${rightApples} = ${actualSum} maçãs, mas o desafio era ${expectedSum} maçãs.`
     );
   }
+  generateTarget();
 }
 
 // Inicia o jogo com um primeiro desafio
