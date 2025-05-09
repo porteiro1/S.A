@@ -383,14 +383,7 @@ function exportarResultados() {
         
         yPosition += 15;
     });
-    
-    // Adicionar análise por categoria
-    yPosition += 5;
-    doc.setFontSize(16);
-    doc.setTextColor(44, 95, 188);
-    doc.text("Análise por Categoria", margin, yPosition);
-    yPosition += 15;
-    
+
     // Calcular desempenho por categoria
     const categorias = {};
     questoes.forEach(q => {
@@ -404,30 +397,6 @@ function exportarResultados() {
             categorias[q.categoria].acertos++;
         }
     });
-    
-    // Exibir desempenho por categoria
-    doc.setFontSize(11);
-    Object.keys(categorias).forEach(categoria => {
-        const dados = categorias[categoria];
-        const percentualCategoria = Math.round((dados.acertos / dados.total) * 100);
-        
-        doc.setTextColor(0, 0, 0);
-        doc.text(`${categoria}: ${dados.acertos}/${dados.total} (${percentualCategoria}%)`, margin, yPosition);
-        yPosition += 8;
-    });
-    
-    // Adicionar mensagem final
-    yPosition += 10;
-    doc.setFontSize(12);
-    doc.setTextColor(44, 95, 188);
-    if (percentual >= 80) {
-        doc.text("Parabéns pelo excelente desempenho!", margin, yPosition);
-    } else if (percentual >= 60) {
-        doc.text("Bom trabalho! Continue praticando.", margin, yPosition);
-    } else {
-        doc.text("Continue praticando para melhorar seu desempenho.", margin, yPosition);
-    }
-    
     // Salvar o PDF
     doc.save(`quiz-matematica-${new Date().toISOString().slice(0, 10)}.pdf`);
 }
