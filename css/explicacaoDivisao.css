@@ -19,6 +19,7 @@ html, body {
 body {
   font-family: "Poppins", sans-serif;
   background-color: #efb822;
+  height: 100vh;
   letter-spacing: 3px;
 }
 
