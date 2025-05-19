@@ -30,7 +30,7 @@ body {
 }
 
 header {
-  background-color:#be4d40;
+  background-color:#fb3e40;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -195,7 +195,7 @@ main {
 
 button {
   height: 5em;
-  background-color: #be4d40;
+  background-color: #fb3e40;
   border: 0px;
   border-radius: 10px;
   color: white;
@@ -213,7 +213,7 @@ footer {
   color: white;
   text-align: right;
   padding: 15px;
-  background-color: #be4d40;
+  background-color: #fb3e40;
   margin-top: auto;
 }
 
