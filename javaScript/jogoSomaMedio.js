@@ -78,7 +78,7 @@ function resetGame() {
   // Gera 6 cestas
   for (let i = 0; i < 10; i++) {
     const basket = document.createElement("img");
-    basket.src = "/S.A/images/basket.png"; // Imagem da cesta
+    basket.src = "../images/basket.png"; // Imagem da cesta
     basket.classList.add("basket");
     basket.draggable = true;
     basket.dataset.value = BASKET_VALUE; // Atributo para armazenar o valor da cesta
