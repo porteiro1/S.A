@@ -68,7 +68,7 @@ function resetGame() {
   // Gera maçãs
   for (let i = 0; i < 10; i++) {
     const apple = document.createElement("img");
-    apple.src = "/images/apple.png";
+    apple.src = "/S.A/images/apple.png";
     apple.classList.add("apple");
     apple.draggable = true;
 
@@ -81,7 +81,7 @@ function resetGame() {
   // Gera cestas
   for (let i = 0; i < 6; i++) {
     const basket = document.createElement("img");
-    basket.src = "/images/basket.png";
+    basket.src = "/S.A/images/basket.png";
     basket.classList.add("basket");
     basket.draggable = true;
     basket.dataset.value = BASKET_VALUE;

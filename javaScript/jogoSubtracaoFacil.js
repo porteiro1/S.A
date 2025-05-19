@@ -25,7 +25,7 @@ function resetGame() {
   // Gera 10 maçãs
   for (let i = 0; i < 20; i++) {
     const apple = document.createElement("img");
-    apple.src = "/images/apple.png";
+    apple.src = "/S.A/images/apple.png";
     apple.classList.add("apple");
     apple.draggable = true;
 
