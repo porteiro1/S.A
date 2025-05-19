@@ -62,6 +62,12 @@ S.A/
 
 ## **Como Executar o Projeto**
 
+* **Método online:**
+1. Basta acessar o link do projeto para utilizar a aplicação.
+
+
+* **Método Offline:**
+
 1. Extraia o projeto `S.A.zip`.
 
 2. Abra o arquivo `index.html` em qualquer navegador moderno (recomendado: Firefox ou Chrome).
