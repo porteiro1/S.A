@@ -1,5 +1,5 @@
 :root {
-  --color-red: #be4d40;
+  --color-red: #fb3e40;
   --color-blue: #03a9f4;
   --color-beige: #f5f5dc;
 }
@@ -12,7 +12,7 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #fb3e40;
+  background-color: #be4d40;
   letter-spacing: 3px;
 }
 
@@ -23,7 +23,7 @@ body {
 }
 
 header {
-  background-color: #be4d40;
+  background-color: #fb3e40;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -88,7 +88,7 @@ header {
 .word {
   margin: 0 10px;
   padding: 10px 20px;
-  border: 2px solid #be4d40;
+  border: 2px solid #fb3e40;
   background-color: #ecf0f1;
   cursor: move;
   user-select: none;
