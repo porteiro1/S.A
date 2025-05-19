@@ -4,7 +4,6 @@ const questoes = [
         categoria: "ADIÇÃO",
         tipo: "adicao",
         texto: " Se você tem 50 reais e recebe 25 reais de mesada, quantos reais você terá ao todo?",
-        imagem: "dinheiro",
         resposta: 75
     },
     {
@@ -12,7 +11,6 @@ const questoes = [
         categoria: "ADIÇÃO",
         tipo: "adicao",
         texto: "Ana tem 3 coelhos e ganhou 2 coelhos. Quantos coelhos Ana tem?",
-        imagem: "coelho",
         resposta: 5
     },
     {
@@ -20,7 +18,6 @@ const questoes = [
         categoria: "SUBTRAÇÃO",
         tipo: "subtracao",
         texto: "Você tinha 40 reais e gastou 12 reais no lanche. Quantos reais você tem agora?",
-        imagem: "carro",
         resposta: 28
     },
     {
@@ -28,7 +25,6 @@ const questoes = [
         categoria: "SUBTRAÇÃO",
         tipo: "subtracao",
         texto: "Se você precisa ler um livro de 200 páginas e já leu 85, quantas páginas faltam para terminar?",
-        imagem: "livro",
         resposta: 115
     },
     {
@@ -36,7 +32,6 @@ const questoes = [
         categoria: "SUBTRAÇÃO",
         tipo: "subtracao",
         texto: "Você tem 30 minutos para fazer a lição de casa e já se passaram 18 minutos. Quantos <strong>segundos</strong> você ainda tem?",
-        imagem: "relogio",
         resposta: 720
     },
     {
@@ -44,7 +39,6 @@ const questoes = [
         categoria: "MULTIPLICAÇÃO",
         tipo: "multiplicacao",
         texto: "Você precisa comprar 5 pacotes de figurinhas e cada pacote tem 8 figurinhas. Quantas figurinhas você terá no total?",
-        imagem: "figurinha",
         resposta: 40
     },
     {
@@ -52,7 +46,6 @@ const questoes = [
         categoria: "DIVISÃO",
         tipo: "divisao",
         texto: "Se você tem 30 reais e quer comprar livros que custam 6 reais cada, quantos livros você poderá comprar?",
-        imagem: "livros",
         resposta: 5
     },
     {
@@ -60,7 +53,6 @@ const questoes = [
         categoria: "DIVISÃO",
         tipo: "divisao",
         texto: "Você precisa organizar 36 lápis em 3 estojos. Quantos lápis você colocará em cada estojo?",
-        imagem: "lapis",
         resposta: 12
     },
     {
@@ -68,7 +60,6 @@ const questoes = [
         categoria: "MULTIPLICAÇÃO",
         tipo: "multiplicacao",
         texto: "Você precisa comprar 3 cadernos que custam R$ 15 cada e 2 canetas que custam R$3 cada. Quanto você gastará no total?",
-        imagem: "bala",
         resposta: 51
     },
     {
@@ -76,7 +67,6 @@ const questoes = [
         categoria: "DIVISÃO",
         tipo: "divisao",
         texto: "Você precisa organizar seus livros em 4 prateleiras. Se você tem 12 livros de matemática, 8 de português e 4 de história, quantos livros ficarão em cada prateleira?",
-        imagem: "lapis",
         resposta: 6
     }
 ];
@@ -101,7 +91,6 @@ function iniciarQuiz() {
             <div class="questao-content">
                 <div class="numero-questao">${questao.id}</div>
                 <div class="questao-texto">${questao.texto}</div>
-                <img src="/api/placeholder/60/60" alt="${questao.imagem}" class="imagem-questao">
             </div>
             
             <div class="resposta-container">
