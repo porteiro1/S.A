@@ -19,7 +19,7 @@ body {
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #fb3e40;
+  background-color: #be4d40;
   letter-spacing: 3px;
 }
 
@@ -195,7 +195,7 @@ main {
 
 button {
   height: 5em;
-  background-color: #fb3e40;
+  background-color: #be4d40;
   border: 0px;
   border-radius: 10px;
   color: white;
