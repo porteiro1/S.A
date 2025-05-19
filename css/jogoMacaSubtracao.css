@@ -83,7 +83,7 @@ header {
 .word-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 7px;
 }
 .word {
   margin: 0 10px;
@@ -279,7 +279,7 @@ header {
 }
 
 button {
-  background-color: #be4d40;
+  background-color: #fb3e40;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -290,7 +290,7 @@ footer {
   color: white;
   text-align: right;
   padding: 5px;
-  background-color: #be4d40;
+  background-color: #fb3e40;
 }
 
 footer img {
