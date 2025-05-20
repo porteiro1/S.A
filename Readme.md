@@ -37,13 +37,11 @@ S.A/
 │   ├── explicacao\*.css  
 │   ├── jogoMaca\*.css  
 │   ├── jogoNave\*.css  
-│   ├── quizFinal.css  
-│   └── testeDivisao.css  
+│   └── quizFinal.css  
 ├── javaScript/               	\# Scripts de lógica para os jogos e navegação  
 │   ├── jogo\*.js  
 │   ├── navegate.js           	\# Função navegateTo() usada para navegação dinâmica  
-│   ├── scriptQuiz.js         	\# Lógica do quiz  
-│   └── testeDivisao.js  
+│   └──  scriptQuiz.js         	\# Lógica do quiz    
 └── .git/                     	\# Repositório Git (versão local)
 
 ## **Tecnologias Utilizadas**
