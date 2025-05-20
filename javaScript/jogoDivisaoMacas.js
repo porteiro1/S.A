@@ -127,6 +127,7 @@ leftPersonPlate.addEventListener("drop", function (e) {
       returnedApple.addEventListener("dragend", function (e) {
         e.target.classList.remove("dragging");
         sound.play()
+        console.log("fez som");
       });
 
       appleContainer.appendChild(returnedApple);
@@ -189,6 +190,7 @@ rightPersonPlate.addEventListener("drop", function (e) {
       returnedApple.addEventListener("dragend", function (e) {
         e.target.classList.remove("dragging");
         sound.play()
+        console.log("fez som")
       });
 
       appleContainer.appendChild(returnedApple);
