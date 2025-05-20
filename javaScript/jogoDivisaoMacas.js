@@ -12,6 +12,9 @@ const resultDisplay = document.getElementById("result");
 const totalApplesDisplay = document.getElementById("totalApples");
 const leftCountDisplay = document.getElementById("leftCount");
 const rightCountDisplay = document.getElementById("rightCount");
+const sound = new Audio("../images/macaSoundEffect.mp3");
+const acerto = new Audio("../images/acerto.mp3");
+const erro = new Audio("../images/erro.mp3");
 
 // Generate a new division challenge
 function generateTarget() {
@@ -123,6 +126,7 @@ leftPersonPlate.addEventListener("drop", function (e) {
 
       returnedApple.addEventListener("dragend", function (e) {
         e.target.classList.remove("dragging");
+        sound.play()
       });
 
       appleContainer.appendChild(returnedApple);
@@ -184,6 +188,7 @@ rightPersonPlate.addEventListener("drop", function (e) {
 
       returnedApple.addEventListener("dragend", function (e) {
         e.target.classList.remove("dragging");
+        sound.play()
       });
 
       appleContainer.appendChild(returnedApple);
@@ -214,12 +219,14 @@ function checkResult() {
     // Play sound effect (simulated)
     console.log("🎵 Sound: Acerto");
     alert("Parabéns! Você dividiu as maçãs corretamente! 🎉");
+    acerto.play();
     // Generate a new challenge after a short delay
     setTimeout(generateTarget, 1000);
   } else {
     // Play sound effect (simulated)
     console.log("🎵 Sound: Erro");
     let message = "Ops! Algo não está certo:";
+    erro.play
 
     if (!allDistributed) {
       message += `\n- Você distribuiu ${leftPerson + rightPerson} de ${totalApples} maçãs.`;
