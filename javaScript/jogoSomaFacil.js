@@ -116,13 +116,13 @@ function checkResult() {
   const actualSum = leftApples + rightApples;
 
   if (actualSum === expectedSum) {
-    acerto.play();
     alert("Parabéns! Você acertou! 🎉");
+    acerto.play();
   } else {
-    erro.play();
     alert(
       `Ops! Você colocou ${leftApples} + ${rightApples} = ${actualSum} maçãs, mas o desafio era ${expectedSum} maçãs.`
     );
+    erro.play();
   }
   generateTarget();
 }

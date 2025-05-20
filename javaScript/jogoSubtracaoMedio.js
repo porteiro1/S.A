@@ -266,15 +266,15 @@ function checkResult() {
   }
 
   if (actualSum === expectedSum) {
-    acerto.play();
     alert(`Parabéns! Você acertou! 🎉`);
+    acerto.play();
   } else if (expectedSum * -1 === actualSum) {
     alert(`Você acertou, porém o ${actualSum} está negativo!!!`);
   } else if (actualSum != expectedSum) {
-    erro.play();
     alert(
-      `Ops! Você colocou um total de ${actualSum} maçãs, vamos tentar novamente!`
+      `Ops! Você colocou ${leftApples} - ${rightApples} = ${actualSum} maçãs, mas o desafio era ${expectedSum} maçãs.`
     );
+    erro.play();
   }
 
   generateTarget();

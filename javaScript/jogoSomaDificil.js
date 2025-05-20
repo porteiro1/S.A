@@ -310,13 +310,13 @@ function checkResult() {
   }
 
   if (actualSum === expectedSum) {
-    acerto.play();
     alert(`Parabéns! Você acertou! 🎉`);
+    acerto.play();
   } else {
-    erro.play();
     alert(
       `Ops! Você colocou um total de ${actualSum} maçãs, vamos tentar novamente!`
     );
+    erro.play();
   }
 
   generateTarget();
