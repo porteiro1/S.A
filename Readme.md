@@ -27,8 +27,7 @@ S.A/
 │   ├── jogoSubtracaoDificil.html  
 │   ├── jogoMultiplicacao.html  
 │   ├── jogoDivisao.html  
-│   ├── jogoDivisaoMacas.html  
-│   └── testeDivisao.html  
+│   └── jogoDivisaoMacas.html  
 ├── quizFinal/  
 │   └── quiz.html             	\# Quiz final de revisão  
 ├── css/                      	\# Estilos CSS  
@@ -98,5 +97,4 @@ S.A/
 | `jogoSomaFacil.js`, etc. | Lógica e validação das respostas nos jogos |
 | `jogoDivisaoMacas.js` | Dinâmica da divisão com ilustrações de maçãs |
 | `scriptQuiz.js` | Geração de perguntas, respostas e pontuação |
-| `testeDivisao.js` | Possivelmente um protótipo/teste de lógica |
 
