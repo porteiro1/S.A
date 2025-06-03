@@ -88,7 +88,7 @@ header {
 
 .instruction-box h3 {
   color: var(--color-green);
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 600;
   margin-bottom: 8px;
   letter-spacing: 1px;
@@ -103,7 +103,7 @@ header {
 
 .game-area {
   flex-grow: 1;
-  margin: 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 }
@@ -126,7 +126,6 @@ header {
 .word-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
 }
 .word {
   margin: 0 10px;
@@ -286,7 +285,6 @@ header {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-top: 20px;
 }
 
 /* Estilo para quando um item está sendo arrastado sobre um prato */
