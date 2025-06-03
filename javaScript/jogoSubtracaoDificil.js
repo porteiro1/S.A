@@ -1,370 +1,250 @@
-let targetSum = 0;
-let leftApples = 0;
-let rightApples = 0;
-let leftBaskets = 0;
-let rightBaskets = 0;
-let leftBuckets = 0;
-let rightBuckets = 0;
-const BASKET_VALUE = 5; // Cada cesta vale 5 maçãs
-const BUCKET_VALUE = 10; // Cada balde vale 10 maçãs
+// Target result for subtraction
+let targetDifference = 0;
 
+// Counters
+let leftApples = 0, rightApples = 0;
+let leftBaskets = 0, rightBaskets = 0;
+let leftBuckets = 0, rightBuckets = 0;
+
+const BASKET_VALUE = 5;   // Cada cesta vale 5 maçãs
+const BUCKET_VALUE = 10;  // Cada balde vale 10 maçãs
+
+// DOM elements
 const leftPlate = document.getElementById("leftPlate");
 const rightPlate = document.getElementById("rightPlate");
 const appleContainer = document.getElementById("appleContainer");
 const basketContainer = document.getElementById("basketContainer");
-const bucketContainer = document.getElementById("bucketContainer"); // Novo container para baldes
+const bucketContainer = document.getElementById("bucketContainer");
 const resultDisplay = document.getElementById("result");
 const words = document.querySelectorAll(".word");
 const dropAreas = document.querySelectorAll(".drop-area");
-const sound = new Audio("../images/macaSoundEffect.mp3");
-const acerto = new Audio("../images/acerto.mp3");
-const erro = new Audio("../images/erro.mp3");
 
+// Sound effects
+const sound = new Audio("../images/macaSoundEffect.mp3");
+const correctSound = new Audio("../images/acerto.mp3");
+const wrongSound = new Audio("../images/erro.mp3");
+
+// Gera novo desafio de subtração
 function generateTarget() {
-  targetSum = Math.floor(Math.random() * 50) + 5; // Aumentei o intervalo para incluir somas maiores
-  resultDisplay.textContent = targetSum;
+  targetDifference = Math.floor(Math.random() * 50) + 5;
+  resultDisplay.textContent = targetDifference;
   resetGame();
 }
 
+// Reinicia todos os elementos do jogo
 function resetGame() {
   leftPlate.innerHTML = "";
   rightPlate.innerHTML = "";
-  leftApples = 0;
-  rightApples = 0;
-  leftBaskets = 0;
-  rightBaskets = 0;
-  leftBuckets = 0;
-  rightBuckets = 0;
-  appleContainer.innerHTML = "Representa 1";
-  basketContainer.innerHTML = "Representa 5";
-  bucketContainer.innerHTML = "Representa 10";
+  leftApples = rightApples = leftBaskets = rightBaskets = leftBuckets = rightBuckets = 0;
 
-  // Reset drop areas - corrigido
-  dropAreas.forEach((area) => {
-    area.innerHTML = "";
-  });
+  dropAreas.forEach((area) => area.innerHTML = "");
 
-  // Recria as palavras e as coloca de volta no container original
   const wordContainer = document.getElementById("wordContainer");
   if (wordContainer) {
     wordContainer.innerHTML = "";
-
-    // Recria as palavras
     const wordData = [
-      { id: "word1", text: "minuendo" },
-      { id: "word2", text: "subtraendo" },
-      { id: "word3", text: "diferença" },
+      { id: "word1", text: "Minuendo" },
+      { id: "word2", text: "Subtraendo" },
+      { id: "word3", text: "Diferença" },
     ];
-
     wordData.forEach((item) => {
       const word = document.createElement("div");
       word.id = item.id;
       word.className = "word";
       word.textContent = item.text;
       word.draggable = true;
-
-      word.addEventListener("dragstart", dragStart);
-      word.addEventListener("dragend", dragEnd);
-
+      word.addEventListener("dragstart", onDragStart);
+      word.addEventListener("dragend", onDragEnd);
       wordContainer.appendChild(word);
     });
   }
 
-  // Gera maçãs
-  for (let i = 0; i < 10; i++) {
-    const apple = document.createElement("img");
-    apple.src = "/S.A/images/greenApple.png";
-    apple.classList.add("apple");
-    apple.draggable = true;
+  createItems(appleContainer, 10, "/S.A/images/greenApple.png", "apple");
+  createItems(basketContainer, 6, "/S.A/images/basket.png", "basket", BASKET_VALUE);
+  createItems(bucketContainer, 4, "/S.A/images/bucket.png", "bucket", BUCKET_VALUE);
 
-    apple.addEventListener("dragstart", dragStart);
-    apple.addEventListener("dragend", dragEnd);
+  // Pratos como zonas de drop
+  leftPlate.addEventListener("dragover", allowDrop);
+  leftPlate.addEventListener("drop", dropToLeftPlate);
+  rightPlate.addEventListener("dragover", allowDrop);
+  rightPlate.addEventListener("drop", dropToRightPlate);
 
-    appleContainer.appendChild(apple);
-  }
-
-  // Gera cestas
-  for (let i = 0; i < 6; i++) {
-    const basket = document.createElement("img");
-    basket.src = "/S.A/images/basket.png";
-    basket.classList.add("basket");
-    basket.draggable = true;
-    basket.dataset.value = BASKET_VALUE;
-
-    basket.addEventListener("dragstart", dragStart);
-    basket.addEventListener("dragend", dragEnd);
-
-    basketContainer.appendChild(basket);
-  }
-
-  // Gera baldes
-  for (let i = 0; i < 4; i++) {
-    const bucket = document.createElement("img");
-    bucket.src = "/S.A/images/bucket.png";
-    bucket.classList.add("bucket");
-    bucket.draggable = true;
-    bucket.dataset.value = BUCKET_VALUE;
-
-    bucket.addEventListener("dragstart", dragStart);
-    bucket.addEventListener("dragend", dragEnd);
-
-    bucketContainer.appendChild(bucket);
-  }
-
-  // Configura os pratos para receberem maçãs, cestas e baldes
-  leftPlate.addEventListener("dragover", dragOver);
-  leftPlate.addEventListener("drop", dropLeft);
-
-  rightPlate.addEventListener("dragover", dragOver);
-  rightPlate.addEventListener("drop", dropRight);
-
-  // Drop zone events
+  // Zonas de texto
   dropAreas.forEach((area) => {
-    area.addEventListener("dragover", dragOver);
-    area.addEventListener("dragleave", dragLeave);
-    area.addEventListener("drop", drop);
+    area.addEventListener("dragover", allowDrop);
+    area.addEventListener("dragleave", onDragLeave);
+    area.addEventListener("drop", dropWord);
   });
 
-  // Atualiza a exibição inicial
   updateDisplay();
 }
 
-function dragStart(e) {
+// Cria maçãs, cestas ou baldes
+function createItems(container, count, src, className, value = null) {
+  for (let i = 0; i < count; i++) {
+    const item = document.createElement("img");
+    item.src = src;
+    item.classList.add(className);
+    item.draggable = true;
+    if (value) item.dataset.value = value;
+    item.addEventListener("dragstart", onDragStart);
+    item.addEventListener("dragend", onDragEnd);
+    container.appendChild(item);
+  }
+}
+
+// Eventos de drag
+function onDragStart(e) {
   e.target.classList.add("dragging");
   e.dataTransfer.setData("text/plain", e.target.id);
 
-  // Determina o tipo do item
-  let itemType = "word"; // Valor padrão
-  if (e.target.classList.contains("apple")) {
-    itemType = "apple";
-  } else if (e.target.classList.contains("basket")) {
-    itemType = "basket";
-  } else if (e.target.classList.contains("bucket")) {
-    itemType = "bucket";
-  }
+  let type = "word";
+  if (e.target.classList.contains("apple")) type = "apple";
+  else if (e.target.classList.contains("basket")) type = "basket";
+  else if (e.target.classList.contains("bucket")) type = "bucket";
 
-  e.dataTransfer.setData("itemType", itemType);
+  e.dataTransfer.setData("itemType", type);
 }
 
-function dragEnd(e) {
+function onDragEnd(e) {
   e.target.classList.remove("dragging");
 }
 
-function dragOver(e) {
+function allowDrop(e) {
   e.preventDefault();
   e.target.classList.add("drag-over");
 }
 
-function dragLeave(e) {
+function onDragLeave(e) {
   e.target.classList.remove("drag-over");
 }
 
-function drop(e) {
+// Drop de palavras
+function dropWord(e) {
   e.preventDefault();
   const wordId = e.dataTransfer.getData("text");
   const word = document.getElementById(wordId);
-
-  // Clear previous content of drop area
   e.target.innerHTML = "";
-
-  // Add word to drop area
   e.target.appendChild(word);
   e.target.classList.remove("drag-over");
 }
 
-function dropLeft(e) {
+// Solta item no prato esquerdo
+function dropToLeftPlate(e) {
   e.preventDefault();
-  const draggingItem = document.querySelector(".dragging");
-  const itemType = e.dataTransfer.getData("itemType");
+  const item = document.querySelector(".dragging");
+  const type = e.dataTransfer.getData("itemType");
 
-  if (draggingItem) {
-    // Remove o item do container original
-    draggingItem.remove();
+  if (item) {
+    item.remove();
     sound.play();
-
-    // Adiciona o item no prato esquerdo
-    leftPlate.appendChild(draggingItem);
-
-    if (itemType === "apple") {
-      leftApples++;
-      // Reconfigura os eventos para a maçã no prato
-      draggingItem.addEventListener("click", () =>
-        removeItemFromPlate(draggingItem, leftPlate, "left", "apple")
-      );
-    } else if (itemType === "basket") {
-      leftBaskets++;
-      // Reconfigura os eventos para a cesta no prato
-      draggingItem.addEventListener("click", () =>
-        removeItemFromPlate(draggingItem, leftPlate, "left", "basket")
-      );
-    } else if (itemType === "bucket") {
-      leftBuckets++;
-      // Reconfigura os eventos para o balde no prato
-      draggingItem.addEventListener("click", () =>
-        removeItemFromPlate(draggingItem, leftPlate, "left", "bucket")
-      );
-    }
-
-    // Atualiza a exibição após adicionar um item
+    leftPlate.appendChild(item);
+    addItemCount(type, "left");
+    item.addEventListener("click", () => removeItem(item, leftPlate, "left", type));
     updateDisplay();
   }
+
   e.target.classList.remove("drag-over");
 }
 
-function dropRight(e) {
+// Solta item no prato direito
+function dropToRightPlate(e) {
   e.preventDefault();
-  const draggingItem = document.querySelector(".dragging");
-  const itemType = e.dataTransfer.getData("itemType");
+  const item = document.querySelector(".dragging");
+  const type = e.dataTransfer.getData("itemType");
 
-  if (draggingItem) {
-    // Remove o item do container original
-    draggingItem.remove();
+  if (item) {
+    item.remove();
     sound.play();
-
-    // Adiciona o item no prato direito
-    rightPlate.appendChild(draggingItem);
-
-    if (itemType === "apple") {
-      rightApples++;
-      // Reconfigura os eventos para a maçã no prato
-      draggingItem.addEventListener("click", () =>
-        removeItemFromPlate(draggingItem, rightPlate, "right", "apple")
-      );
-    } else if (itemType === "basket") {
-      rightBaskets++;
-      // Reconfigura os eventos para a cesta no prato
-      draggingItem.addEventListener("click", () =>
-        removeItemFromPlate(draggingItem, rightPlate, "right", "basket")
-      );
-    } else if (itemType === "bucket") {
-      rightBuckets++;
-      // Reconfigura os eventos para o balde no prato
-      draggingItem.addEventListener("click", () =>
-        removeItemFromPlate(draggingItem, rightPlate, "right", "bucket")
-      );
-    }
-
-    // Atualiza a exibição após adicionar um item
+    rightPlate.appendChild(item);
+    addItemCount(type, "right");
+    item.addEventListener("click", () => removeItem(item, rightPlate, "right", type));
     updateDisplay();
   }
+
   e.target.classList.remove("drag-over");
 }
 
-function removeItemFromPlate(item, plate, plateType, itemType) {
-  // Remove o item do prato
+// Incrementa os contadores
+function addItemCount(type, side) {
+  const modifier = side === "left" ? "left" : "right";
+  if (type === "apple") eval(`${modifier}Apples++`);
+  if (type === "basket") eval(`${modifier}Baskets++`);
+  if (type === "bucket") eval(`${modifier}Buckets++`);
+}
+
+// Remove item do prato
+function removeItem(item, plate, side, type) {
   plate.removeChild(item);
 
-  // Adiciona o item de volta ao container apropriado
-  if (itemType === "apple") {
+  if (type === "apple") {
     appleContainer.appendChild(item);
-    // Decrementa o contador do prato correto
-    if (plateType === "left") {
-      leftApples--;
-    } else {
-      rightApples--;
-    }
-  } else if (itemType === "basket") {
+    side === "left" ? leftApples-- : rightApples--;
+  } else if (type === "basket") {
     basketContainer.appendChild(item);
-    // Decrementa o contador do prato correto
-    if (plateType === "left") {
-      leftBaskets--;
-    } else {
-      rightBaskets--;
-    }
-  } else if (itemType === "bucket") {
+    side === "left" ? leftBaskets-- : rightBaskets--;
+  } else if (type === "bucket") {
     bucketContainer.appendChild(item);
-    // Decrementa o contador do prato correto
-    if (plateType === "left") {
-      leftBuckets--;
-    } else {
-      rightBuckets--;
-    }
+    side === "left" ? leftBuckets-- : rightBuckets--;
   }
 
-  // Atualiza a exibição após remover um item
   updateDisplay();
 }
 
+// Verifica resultado da subtração
 function checkResult() {
-  const expectedSum = targetSum;
+  const expected = targetDifference;
 
-  // Calcula a soma total considerando os valores de cada item
-  const leftTotal =
-    leftApples + leftBaskets * BASKET_VALUE + leftBuckets * BUCKET_VALUE;
-  const rightTotal =
-    rightApples + rightBaskets * BASKET_VALUE + rightBuckets * BUCKET_VALUE;
-  const actualSum = leftTotal - rightTotal;
+  const leftTotal = leftApples + leftBaskets * BASKET_VALUE + leftBuckets * BUCKET_VALUE;
+  const rightTotal = rightApples + rightBaskets * BASKET_VALUE + rightBuckets * BUCKET_VALUE;
+  const actual = leftTotal - rightTotal;
 
-  const dropArea1 = document.getElementById("dropArea1");
-  const dropArea2 = document.getElementById("dropArea2");
-  const dropArea3 = document.getElementById("dropArea3");
-
-  // Check if words are in the correct order
-  const firstWord = dropArea1.firstChild;
-  const secondWord = dropArea2.firstChild;
-  const thirdWord = dropArea3.firstChild;
+  const word1 = document.getElementById("dropArea1")?.firstChild;
+  const word2 = document.getElementById("dropArea2")?.firstChild;
+  const word3 = document.getElementById("dropArea3")?.firstChild;
 
   if (
-    firstWord &&
-    secondWord &&
-    thirdWord &&
-    firstWord.id === "word1" &&
-    secondWord.id === "word2" &&
-    thirdWord.id === "word3"
+    word1 && word2 && word3 &&
+    word1.id === "word1" &&
+    word2.id === "word2" &&
+    word3.id === "word3"
   ) {
     alert("Ordem correta das parcelas! 🎉");
   } else {
     alert("Errou a ordem das parcelas!");
   }
 
-  if (actualSum === expectedSum) {
-    alert(`Parabéns! Você acertou! 🎉`);
-    acerto.play();
-  } else if (expectedSum * -1 === actualSum) {
-    alert(`Você acertou, porém o ${actualSum} está negativo!!!`);
-  } else if (actualSum != expectedSum) {
-    alert(
-      `Ops! Você colocou ${leftApples} - ${rightApples} = ${actualSum} maçãs, mas o desafio era ${expectedSum} maçãs.`
-    );
-    erro.play();
+  if (actual === expected) {
+    alert("Parabéns! Você acertou! 🎉");
+    correctSound.play();
+  } else if (expected * -1 === actual) {
+    alert(`Você acertou, porém o ${actual} está negativo!`);
+  } else {
+    alert(`Ops! Você colocou ${leftTotal} - ${rightTotal} = ${actual}, mas o desafio era ${expected}.`);
+    wrongSound.play();
   }
 
   generateTarget();
 }
 
+// Atualiza a exibição dos totais
 function updateDisplay() {
-  // Exibe a contagem atual de maçãs, cestas e baldes em cada prato
-  const leftTotal =
-    leftApples + leftBaskets * BASKET_VALUE + leftBuckets * BUCKET_VALUE;
-  const rightTotal =
-    rightApples + rightBaskets * BASKET_VALUE + rightBuckets * BUCKET_VALUE;
+  const leftTotal = leftApples + leftBaskets * BASKET_VALUE + leftBuckets * BUCKET_VALUE;
+  const rightTotal = rightApples + rightBaskets * BASKET_VALUE + rightBuckets * BUCKET_VALUE;
 
-  // Formata texto para mostrar a contagem
-  let leftText = `${leftTotal}`;
-  let rightText = `${rightTotal}`;
+  const leftDetails = [];
+  if (leftApples) leftDetails.push(`${leftApples} maçãs`);
+  if (leftBaskets) leftDetails.push(`${leftBaskets} cestas`);
+  if (leftBuckets) leftDetails.push(`${leftBuckets} baldes`);
 
-  // Adiciona detalhes se houver itens
-  if (leftApples > 0 || leftBaskets > 0 || leftBuckets > 0) {
-    leftText += " (";
-    let details = [];
-    if (leftApples > 0) details.push(`${leftApples} maçãs`);
-    if (leftBaskets > 0) details.push(`${leftBaskets} cestas`);
-    if (leftBuckets > 0) details.push(`${leftBuckets} baldes`);
-    leftText += details.join(" + ") + ")";
-  }
+  const rightDetails = [];
+  if (rightApples) rightDetails.push(`${rightApples} maçãs`);
+  if (rightBaskets) rightDetails.push(`${rightBaskets} cestas`);
+  if (rightBuckets) rightDetails.push(`${rightBuckets} baldes`);
 
-  if (rightApples > 0 || rightBaskets > 0 || rightBuckets > 0) {
-    rightText += " (";
-    let details = [];
-    if (rightApples > 0) details.push(`${rightApples} maçãs`);
-    if (rightBaskets > 0) details.push(`${rightBaskets} cestas`);
-    if (rightBuckets > 0) details.push(`${rightBuckets} baldes`);
-    rightText += details.join(" + ") + ")";
-  }
-
-  document.getElementById("leftCount").textContent = leftText;
-  document.getElementById("rightCount").textContent = rightText;
+  document.getElementById("leftCount").textContent = `${leftTotal} (${leftDetails.join(" + ")})`;
+  document.getElementById("rightCount").textContent = `${rightTotal} (${rightDetails.join(" + ")})`;
 }
 
-// Inicia o jogo com um primeiro desafio
+// Inicia o jogo
 generateTarget();

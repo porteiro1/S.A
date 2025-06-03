@@ -1,27 +1,37 @@
+// Target sum value
 let targetSum = 0;
+
+// Apple and basket counters
 let leftApples = 0;
 let rightApples = 0;
 let leftBaskets = 0;
 let rightBaskets = 0;
+
 const BASKET_VALUE = 5; // Cada cesta vale 5 maçãs
 
+// DOM elements
 const leftPlate = document.getElementById("leftPlate");
 const rightPlate = document.getElementById("rightPlate");
 const appleContainer = document.getElementById("appleContainer");
-const basketContainer = document.getElementById("basketContainer"); // Novo container para cestas
+const basketContainer = document.getElementById("basketContainer");
 const resultDisplay = document.getElementById("result");
+
 const words = document.querySelectorAll(".word");
 const dropAreas = document.querySelectorAll(".drop-area");
-const sound = new Audio("../images/macaSoundEffect.mp3");
-const acerto = new Audio("../images/acerto.mp3");
-const erro = new Audio("../images/erro.mp3");
 
+// Sounds
+const sound = new Audio("../images/macaSoundEffect.mp3");
+const correctSound = new Audio("../images/acerto.mp3");
+const wrongSound = new Audio("../images/erro.mp3");
+
+// Gera novo desafio com valor de soma
 function generateTarget() {
-  targetSum = Math.floor(Math.random() * 30); // Aumentei o intervalo para incluir somas maiores
+  targetSum = Math.floor(Math.random() * 30); // Permite somas maiores
   resultDisplay.textContent = targetSum;
   resetGame();
 }
 
+// Reinicia os pratos, maçãs, cestas e áreas de drop
 function resetGame() {
   leftPlate.innerHTML = "";
   rightPlate.innerHTML = "";
@@ -29,243 +39,203 @@ function resetGame() {
   rightApples = 0;
   leftBaskets = 0;
   rightBaskets = 0;
-  // Reset drop areas - corrigido
-  dropAreas.forEach(area => {
+
+  dropAreas.forEach((area) => {
     area.innerHTML = "";
   });
 
-  // Recria as palavras e as coloca de volta no container original
+  // Recria as palavras (texto fixo)
   const wordContainer = document.getElementById("wordContainer");
   if (wordContainer) {
     wordContainer.innerHTML = "";
-    
-    // Recria as palavras
     const wordData = [
       { id: "word1", text: "Parcela" },
       { id: "word2", text: "Parcela" },
       { id: "word3", text: "Soma" }
     ];
-    
-    wordData.forEach(item => {
+
+    wordData.forEach((item) => {
       const word = document.createElement("div");
       word.id = item.id;
       word.className = "word";
       word.textContent = item.text;
       word.draggable = true;
-      
-      word.addEventListener("dragstart", dragStart);
-      word.addEventListener("dragend", dragEnd);
-      
+
+      word.addEventListener("dragstart", onDragStart);
+      word.addEventListener("dragend", onDragEnd);
+
       wordContainer.appendChild(word);
     });
   }
 
+  // Gera 10 maçãs
   for (let i = 0; i < 10; i++) {
     const apple = document.createElement("img");
     apple.src = "/S.A/images/apple.png";
     apple.classList.add("apple");
     apple.draggable = true;
 
-    apple.addEventListener("dragstart", dragStart);
-    apple.addEventListener("dragend", dragEnd);
+    apple.addEventListener("dragstart", onDragStart);
+    apple.addEventListener("dragend", onDragEnd);
 
     appleContainer.appendChild(apple);
   }
 
-  // Gera 6 cestas
+  // Gera 10 cestas
   for (let i = 0; i < 10; i++) {
     const basket = document.createElement("img");
-    basket.src = "/S.A/images/basket.png"; // Imagem da cesta
+    basket.src = "/S.A/images/basket.png";
     basket.classList.add("basket");
     basket.draggable = true;
-    basket.dataset.value = BASKET_VALUE; // Atributo para armazenar o valor da cesta
+    basket.dataset.value = BASKET_VALUE;
 
-    basket.addEventListener("dragstart", dragStart);
-    basket.addEventListener("dragend", dragEnd);
+    basket.addEventListener("dragstart", onDragStart);
+    basket.addEventListener("dragend", onDragEnd);
 
     basketContainer.appendChild(basket);
   }
 
-  // Configura os pratos para receberem maçãs e cestas
-  leftPlate.addEventListener("dragover", dragOver);
-  leftPlate.addEventListener("drop", dropLeft);
+  // Eventos de drop nos pratos
+  leftPlate.addEventListener("dragover", allowDrop);
+  leftPlate.addEventListener("drop", dropToLeftPlate);
 
-  rightPlate.addEventListener("dragover", dragOver);
-  rightPlate.addEventListener("drop", dropRight);
+  rightPlate.addEventListener("dragover", allowDrop);
+  rightPlate.addEventListener("drop", dropToRightPlate);
 
+  // Eventos nas palavras e drop zones
   words.forEach((word) => {
-    word.addEventListener("dragstart", dragStart);
-    word.addEventListener("dragend", dragEnd);
+    word.addEventListener("dragstart", onDragStart);
+    word.addEventListener("dragend", onDragEnd);
   });
 
-  // Drop zone events
   dropAreas.forEach((area) => {
-    area.addEventListener("dragover", dragOver);
-    area.addEventListener("dragleave", dragLeave);
-    area.addEventListener("drop", drop);
+    area.addEventListener("dragover", allowDrop);
+    area.addEventListener("dragleave", onDragLeave);
+    area.addEventListener("drop", dropWord);
   });
 }
 
-function dragStart(e) {
+// Início do arraste
+function onDragStart(e) {
   e.target.classList.add("dragging");
   e.dataTransfer.setData("text/plain", e.target.id);
-  // Adiciona informação se é uma maçã ou uma cesta
   e.dataTransfer.setData("itemType", e.target.classList.contains("apple") ? "apple" : "basket");
 }
 
-function dragEnd(e) {
+// Fim do arraste
+function onDragEnd(e) {
   e.target.classList.remove("dragging");
 }
 
-function dragOver(e) {
+// Permite soltar o item
+function allowDrop(e) {
   e.preventDefault();
   e.target.classList.add("drag-over");
 }
 
-function dragLeave(e) {
+// Sai da área de drop
+function onDragLeave(e) {
   e.target.classList.remove("drag-over");
 }
 
-function drop(e) {
+// Solta a palavra em uma área de drop
+function dropWord(e) {
   e.preventDefault();
   const wordId = e.dataTransfer.getData("text");
   const word = document.getElementById(wordId);
 
-  // Clear previous content of drop area
   e.target.innerHTML = "";
-
-  // Add word to drop area
   e.target.appendChild(word);
   e.target.classList.remove("drag-over");
 }
 
-function dropLeft(e) {
+// Solta item no prato esquerdo
+function dropToLeftPlate(e) {
   e.preventDefault();
-  const draggingItem = document.querySelector(".dragging");
+  const item = document.querySelector(".dragging");
   const itemType = e.dataTransfer.getData("itemType");
 
-  if (draggingItem) {
-    // Remove o item do container original
-    draggingItem.remove();
+  if (item) {
+    item.remove();
     sound.play();
-
-    // Adiciona o item no prato esquerdo
-    leftPlate.appendChild(draggingItem);
+    leftPlate.appendChild(item);
 
     if (itemType === "apple") {
       leftApples++;
-      // Reconfigura os eventos para a maçã no prato
-      draggingItem.addEventListener("click", () =>
-        removeItemFromPlate(draggingItem, leftPlate, "left", "apple")
-      );
-    } else if (itemType === "basket" || draggingItem.classList.contains("basket")) {
+      item.addEventListener("click", () => removeItem(item, leftPlate, "left", "apple"));
+    } else if (itemType === "basket") {
       leftBaskets++;
-      // Reconfigura os eventos para a cesta no prato
-      draggingItem.addEventListener("click", () =>
-        removeItemFromPlate(draggingItem, leftPlate, "left", "basket")
-      );
+      item.addEventListener("click", () => removeItem(item, leftPlate, "left", "basket"));
     }
   }
+
   e.target.classList.remove("drag-over");
 }
 
-function dropRight(e) {
+// Solta item no prato direito
+function dropToRightPlate(e) {
   e.preventDefault();
-  const draggingItem = document.querySelector(".dragging");
+  const item = document.querySelector(".dragging");
   const itemType = e.dataTransfer.getData("itemType");
 
-  if (draggingItem) {
-    // Remove o item do container original
-    draggingItem.remove();
+  if (item) {
+    item.remove();
     sound.play();
-
-    // Adiciona o item no prato direito
-    rightPlate.appendChild(draggingItem);
-    
+    rightPlate.appendChild(item);
 
     if (itemType === "apple") {
       rightApples++;
-      // Reconfigura os eventos para a maçã no prato
-      draggingItem.addEventListener("click", () =>
-        removeItemFromPlate(draggingItem, rightPlate, "right", "apple")
-      );
-    } else if (itemType === "basket" || draggingItem.classList.contains("basket")) {
+      item.addEventListener("click", () => removeItem(item, rightPlate, "right", "apple"));
+    } else if (itemType === "basket") {
       rightBaskets++;
-      // Reconfigura os eventos para a cesta no prato
-      draggingItem.addEventListener("click", () =>
-        removeItemFromPlate(draggingItem, rightPlate, "right", "basket")
-      );
+      item.addEventListener("click", () => removeItem(item, rightPlate, "right", "basket"));
     }
   }
+
   e.target.classList.remove("drag-over");
 }
 
-function removeItemFromPlate(item, plate, plateType, itemType) {
-  // Remove o item do prato
+// Remove item do prato e devolve ao container
+function removeItem(item, plate, side, type) {
   plate.removeChild(item);
 
-  // Adiciona o item de volta ao container apropriado
-  if (itemType === "apple") {
+  if (type === "apple") {
     appleContainer.appendChild(item);
-    // Decrementa o contador do prato correto
-    if (plateType === "left") {
-      leftApples--;
-    } else {
-      rightApples--;
-    }
-  } else if (itemType === "basket") {
+    if (side === "left") leftApples--;
+    else rightApples--;
+  } else if (type === "basket") {
     basketContainer.appendChild(item);
-    // Decrementa o contador do prato correto
-    if (plateType === "left") {
-      leftBaskets--;
-    } else {
-      rightBaskets--;
-    }
+    if (side === "left") leftBaskets--;
+    else rightBaskets--;
   }
 }
 
+// Verifica se a soma e as palavras estão corretas
 function checkResult() {
-  const expectedSum = targetSum;
-  
-  // Calcula a soma total considerando que cada cesta vale BASKET_VALUE maçãs
+  const expected = targetSum;
   const leftTotal = leftApples + (leftBaskets * BASKET_VALUE);
   const rightTotal = rightApples + (rightBaskets * BASKET_VALUE);
-  const actualSum = leftTotal + rightTotal;
-  
+  const actual = leftTotal + rightTotal;
+
   const dropArea3 = document.getElementById("dropArea3");
+  const word3 = dropArea3.firstChild;
 
-  // Check if words are in the correct order
-  const thirdword = dropArea3.firstChild;
-
-  if (
-    thirdword &&
-    thirdword.id === "word3"
-  ) {
+  if (word3 && word3.id === "word3") {
     alert("Ordem correta das parcelas! 🎉");
   } else {
     alert("Errou a ordem das parcelas!");
   }
 
-  if (actualSum === expectedSum) {
-    alert(`Parabéns! Você acertou! 🎉`);
-    acerto.play();
+  if (actual === expected) {
+    alert("Parabéns! Você acertou! 🎉");
+    correctSound.play();
   } else {
-    alert(
-      `Ops! Você colocou um total de ${actualSum} maçãs, vamos tentar novamente!`
-    );
-    erro.play();
+    alert(`Ops! Você colocou um total de ${actual} maçãs, vamos tentar novamente!`);
+    wrongSound.play();
   }
 
   generateTarget();
 }
 
-function updateDisplay() {
-  // Exibe a contagem atual de maçãs e cestas em cada prato
-  const leftTotal = leftApples + (leftBaskets * BASKET_VALUE);
-  const rightTotal = rightApples + (rightBaskets * BASKET_VALUE);
-  document.getElementById("leftCount").textContent = `${leftTotal} (${leftApples} maçãs + ${leftBaskets} cestas)`;
-  document.getElementById("rightCount").textContent = `${rightTotal} (${rightApples} maçãs + ${rightBaskets} cestas)`;
-}
-
-// Inicia o jogo com um primeiro desafio
+// Inicia o jogo com um desafio
 generateTarget();

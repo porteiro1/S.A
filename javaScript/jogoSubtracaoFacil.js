@@ -1,130 +1,128 @@
-let targetSum = 0;
+// Target result of the subtraction
+let targetDifference = 0;
+
+// Apple counters for each plate
 let leftApples = 0;
 let rightApples = 0;
+
+// DOM elements
 const leftPlate = document.getElementById("leftPlate");
 const rightPlate = document.getElementById("rightPlate");
 const appleContainer = document.getElementById("appleContainer");
 const resultDisplay = document.getElementById("result");
-const sound = new Audio("../images/macaSoundEffect.mp3");
-const acerto = new Audio("../images/acerto.mp3");
-const erro = new Audio("../images/erro.mp3");
 
+// Sound effects
+const sound = new Audio("../images/macaSoundEffect.mp3");
+const correctSound = new Audio("../images/acerto.mp3");
+const wrongSound = new Audio("../images/erro.mp3");
+
+// Gera novo desafio de subtração
 function generateTarget() {
-  targetSum = Math.floor(Math.random() * 10) + 1;
-  resultDisplay.textContent = targetSum;
+  targetDifference = Math.floor(Math.random() * 10) + 1;
+  resultDisplay.textContent = targetDifference;
   resetGame();
 }
 
+// Reinicia o estado do jogo
 function resetGame() {
   leftPlate.innerHTML = "";
   rightPlate.innerHTML = "";
   leftApples = 0;
   rightApples = 0;
-  appleContainer.innerHTML = "Representa 1";
-
-  // Gera 10 maçãs
+  // Cria maçãs
   for (let i = 0; i < 20; i++) {
     const apple = document.createElement("img");
     apple.src = "/S.A/images/greenApple.png";
     apple.classList.add("apple");
     apple.draggable = true;
 
-    apple.addEventListener("dragstart", dragStart);
-    apple.addEventListener("dragend", dragEnd);
+    apple.addEventListener("dragstart", onDragStart);
+    apple.addEventListener("dragend", onDragEnd);
 
     appleContainer.appendChild(apple);
   }
 
-  // Configura os pratos para receberem maçãs
-  leftPlate.addEventListener("dragover", dragOver);
-  leftPlate.addEventListener("drop", dropLeft);
+  // Configura os pratos como zonas de drop
+  leftPlate.addEventListener("dragover", allowDrop);
+  leftPlate.addEventListener("drop", dropToLeftPlate);
 
-  rightPlate.addEventListener("dragover", dragOver);
-  rightPlate.addEventListener("drop", dropRight);
+  rightPlate.addEventListener("dragover", allowDrop);
+  rightPlate.addEventListener("drop", dropToRightPlate);
 }
 
-function dragStart(e) {
+// Início do arraste
+function onDragStart(e) {
   e.target.classList.add("dragging");
   e.dataTransfer.setData("text/plain", e.target.id);
 }
 
-function dragEnd(e) {
+// Fim do arraste
+function onDragEnd(e) {
   e.target.classList.remove("dragging");
 }
 
-function dragOver(e) {
+// Permite o drop
+function allowDrop(e) {
   e.preventDefault();
 }
 
-function dropLeft(e) {
+// Solta a maçã no prato esquerdo
+function dropToLeftPlate(e) {
   e.preventDefault();
-  const appleImg = document.querySelector(".dragging");
+  const apple = document.querySelector(".dragging");
 
-  if (appleImg) {
-    // Remove a maçã do container original
-    appleImg.remove();
+  if (apple) {
+    apple.remove();
     sound.play();
 
-    // Adiciona a maçã no prato esquerdo
-    leftPlate.appendChild(appleImg);
+    leftPlate.appendChild(apple);
     leftApples++;
 
-    // Reconfigura os eventos para a maçã no prato
-    appleImg.addEventListener("click", () =>
-      removeAppleFromPlate(appleImg, leftPlate, "left")
-    );
+    apple.addEventListener("click", () => removeApple(apple, leftPlate, "left"));
   }
 }
 
-function dropRight(e) {
+// Solta a maçã no prato direito
+function dropToRightPlate(e) {
   e.preventDefault();
-  const appleImg = document.querySelector(".dragging");
+  const apple = document.querySelector(".dragging");
 
-  if (appleImg) {
-    // Remove a maçã do container original
-    appleImg.remove();
+  if (apple) {
+    apple.remove();
     sound.play();
 
-    // Adiciona a maçã no prato direito
-    rightPlate.appendChild(appleImg);
+    rightPlate.appendChild(apple);
     rightApples++;
 
-    // Reconfigura os eventos para a maçã no prato
-    appleImg.addEventListener("click", () =>
-      removeAppleFromPlate(appleImg, rightPlate, "right")
-    );
+    apple.addEventListener("click", () => removeApple(apple, rightPlate, "right"));
   }
 }
 
-function removeAppleFromPlate(apple, plate, plateType) {
-  // Remove a maçã do prato
+// Remove maçã do prato e devolve ao container
+function removeApple(apple, plate, side) {
   plate.removeChild(apple);
-
-  // Adiciona a maçã de volta ao container
   appleContainer.appendChild(apple);
 
-  // Decrementa o contador do prato correto
-  if (plateType === "left") {
+  if (side === "left") {
     leftApples--;
   } else {
     rightApples--;
   }
 }
 
+// Verifica se o resultado da subtração está correto
 function checkResult() {
-  const expectedSum = targetSum;
-  const actualSum = leftApples - rightApples;
+  const expected = targetDifference;
+  const actual = leftApples - rightApples;
 
-  if (actualSum === expectedSum) {
+  if (actual === expected) {
     alert("Parabéns! Você acertou! 🎉");
-    acerto.play();
+    correctSound.play();
   } else {
-    alert(
-      `Ops! Você colocou ${leftApples} - ${rightApples} = ${actualSum} maçãs, mas o desafio era ${expectedSum} maçãs.`
-    );
-    erro.play();
+    alert(`Ops! Você colocou ${leftApples} - ${rightApples} = ${actual} maçãs, mas o desafio era ${expected} maçãs.`);
+    wrongSound.play();
   }
 }
 
-// Inicia o jogo com um primeiro desafio
+// Inicia o jogo com o primeiro desafio
 generateTarget();
