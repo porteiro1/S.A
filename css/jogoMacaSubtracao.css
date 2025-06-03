@@ -23,7 +23,7 @@ body {
 }
 
 header {
-  background-color: #fb3e40;
+  background-color: var(--color-red);
   color: white;
   display: flex;
   justify-content: space-between;
@@ -57,9 +57,53 @@ header {
   position: absolute;
   right: 0;
 }
+
+.main-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 50px;
+}
+
+.instructions-container {
+  flex: 1;
+}
+
+.drag-instruction-box {
+  min-width: 250px;
+  max-width: 300px;
+}
+
+
+.instruction-box {
+  background-color: white;
+  border: 2px solid var(--color-red);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.instruction-box h3 {
+  color: var(--color-red);
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.instruction-box p {
+  color: #333;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: 1px;
+}
+
 .game-area {
   flex-grow: 1;
-  margin: 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 }
@@ -68,7 +112,6 @@ header {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   position: relative;
   overflow: hidden;
 }
@@ -83,12 +126,11 @@ header {
 .word-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 7px;
 }
 .word {
   margin: 0 10px;
   padding: 10px 20px;
-  border: 2px solid #fb3e40;
+  border: 2px solid #be4d40;
   background-color: #ecf0f1;
   cursor: move;
   user-select: none;
@@ -243,7 +285,6 @@ header {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-top: 20px;
 }
 
 /* Estilo para quando um item está sendo arrastado sobre um prato */
@@ -279,20 +320,21 @@ header {
 }
 
 button {
-  background-color: #fb3e40;
+  background-color: var(--color-red);
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 15px 30px;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 20px;
 }
 footer {
   color: white;
   text-align: right;
-  padding: 5px;
-  background-color: #fb3e40;
+  padding: 15px;
+  background-color: var(--color-red);
 }
 
 footer img {
-  max-width: 50px;
+  max-width: 100px;
 }
