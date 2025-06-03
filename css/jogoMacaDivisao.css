@@ -32,7 +32,7 @@ body {
 
 .instruction-box {
   background-color: white;
-  border: 2px solid var(--color-green);
+  border: 2px solid var(--color-primary);
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -42,7 +42,7 @@ body {
 }
 
 .instruction-box h3 {
-  color: var(--color-green);
+  color: var(--color-primary);
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 8px;
