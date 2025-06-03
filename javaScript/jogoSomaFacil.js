@@ -20,7 +20,6 @@ function resetGame() {
   rightPlate.innerHTML = "";
   leftApples = 0;
   rightApples = 0;
-  appleContainer.innerHTML = "Representa 1";
 
   // Gera 10 maçãs
   for (let i = 0; i < 10; i++) {
