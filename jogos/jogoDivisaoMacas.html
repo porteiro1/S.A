@@ -14,27 +14,30 @@
     <header>
       <div class="logo" onclick="navegateTo('../')"> Mathema Quest</div>
       <div class="user-section">
-          <span class="greeting">Olá Estudante!</span>
-          <div class="user-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-          </div>
+        <span class="greeting">Olá Estudante!</span>
+        <div class="user-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
       </div>
     </header>
     <div class="voltar">
       <img src="../images/voltar.png" onclick="navegateTo('/S.A/explicacao/explicacaoDivisao.html')" alt="voltar" />
-  </div>
-  <div class="instructions-container">
+    </div>
+    <div class="game-area">
+      <div class="instructions-container">
         <div class="main-layout">
           <div class="instructions-container">
-          <div class="instruction-box drag-instruction-box">
-            <h3>📋 Como Jogar</h3>
-            <p>Arraste as maçãs até os quadrados brancos para formar a soma correta</p>
+            <div class="instruction-box drag-instruction-box">
+              <h3>📋 Como Jogar</h3>
+              <p>Arraste as maçãs até os quadrados brancos para formar a soma correta</p>
+            </div>
           </div>
-    <div class="game-area">
+        </div>
+      </div>
       <div class="game-board">
         <div class="game-container">
 
@@ -66,16 +69,15 @@
 
           <div class="actions">
             <button onclick="checkResult()">Verificar</button>
-            <button onclick="generateTarget()">Novo Desafio</button>
           </div>
         </div>
       </div>
     </div>
 
-    <footer>
-      <img src="../images/sesiIcon.png" alt="escola sesi icone">
-    </footer>
   </div>
+  <footer>
+    <img src="../images/sesiIcon.png" alt="escola sesi icone">
+  </footer>
 </body>
 <script src="../javaScript/jogoDivisaoMacas.js"></script>
 <script src="../javaScript/navegate.js"></script>
