@@ -29,6 +29,12 @@ body {
   right: 0;
 }
 
+.instructions-container{
+  display:flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
 
 .instruction-box {
   background-color: white;
@@ -39,6 +45,7 @@ body {
   text-align: center;
   min-width: 200px;
   max-width: 300px;
+  
 }
 
 .instruction-box h3 {
