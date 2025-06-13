@@ -29,13 +29,23 @@
         </header>
         
         <main>
-            <div class="progress-container">
+            <div class="professor-selector" id="professor-selector">
+                <h2>Selecione o professor</h2>
+                <select id="select-professor">
+                    <option value="" disabled selected>Escolha um professor</option>
+                    <option value="Chris">Chris</option>
+                    <option value="Igor">Igor</option>
+                </select>
+                <button id="btn-iniciar-quiz">Iniciar Quiz</button>
+            </div>
+            
+            <div class="progress-container" id="progress-container" style="display: none;">
                 <div class="progress-bar">
                     <div class="progress" id="progress-bar"></div>
                 </div>
             </div>
             
-            <div class="quiz-container" id="container-questoes">
+            <div class="quiz-container" id="container-questoes" style="display: none;">
                 <!-- As questões serão inseridas dinamicamente aqui -->
             </div>
             
@@ -59,5 +69,11 @@
     </div>
     <script src="../javaScript/scriptQuiz.js"></script>
     <script src="../javaScript/navegate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+<script>
+    (function() {
+        emailjs.init("bdt0KTQIDygklz9e4");
+    })();
+</script>
 </body>
 </html>

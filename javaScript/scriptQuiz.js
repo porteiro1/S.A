@@ -1,3 +1,5 @@
+let professorSelecionado = null;
+let emailDestinatario = "";
 const questoes = [
     {
         id: 1,
@@ -274,6 +276,7 @@ function mostrarResultado() {
         `;
         
         resumoElement.appendChild(resumoItem);
+        
     });
     
     // Restaurar o tema padrão do site
@@ -282,6 +285,7 @@ function mostrarResultado() {
     
     // Mostrar a tela de resultado
     document.getElementById('resultado').style.display = 'block';
+    enviarEmailResultados();
 }
 
 // Exportar os resultados
@@ -293,20 +297,23 @@ function exportarResultados() {
     const pageWidth = doc.internal.pageSize.getWidth();
     const margin = 20;
     let yPosition = 20;
-    
+
     // Cabeçalho do relatório
     doc.setFontSize(20);
     doc.setTextColor(44, 95, 188); // Azul padrão do tema
-    doc.text("Relatório do Quiz de Matemática", pageWidth/2, yPosition, {align: 'center'});
+    doc.text("Relatório do Quiz de Matemática", pageWidth / 2, yPosition, { align: 'center' });
     yPosition += 15;
-    
+
     // Informações gerais
     doc.setFontSize(12);
     doc.setTextColor(0, 0, 0);
     const dataHora = new Date().toLocaleString();
     doc.text(`Data: ${dataHora}`, margin, yPosition);
+    yPosition += 7;
+    doc.text(`Professor: ${professorSelecionado}`, margin, yPosition);
     yPosition += 10;
-    
+
+    // Rest of the function remains the same...
     // Pontuação
     const acertos = respostas.filter(r => r && r.acertou).length;
     doc.text(`Pontuação: ${acertos}/${questoes.length}`, margin, yPosition);
@@ -390,6 +397,62 @@ function exportarResultados() {
     doc.save(`quiz-matematica-${new Date().toISOString().slice(0, 10)}.pdf`);
 }
 
+function enviarEmailResultados() {
+    const acertos = respostas.filter(r => r && r.acertou).length;
+    const percentual = Math.round((acertos / questoes.length) * 100);
+    
+    // Preparar detalhes das questões para o email
+    let questionsDetails = '';
+    respostas.forEach((resposta) => {
+        if (!resposta) return;
+        const questao = questoes.find(q => q.id === resposta.questaoId);
+        questionsDetails += `
+            Questão ${resposta.questaoId}: ${questao.texto.replace(/<[^>]*>/g, '')}
+            Sua resposta: ${resposta.respostaUsuario} (${resposta.acertou ? 'Correta' : 'Incorreta'})
+            Resposta correta: ${resposta.respostaCorreta}\n\n`;
+    });
+    
+    // Calcular desempenho por categoria
+    const categorias = {};
+    questoes.forEach(q => {
+        if (!categorias[q.categoria]) {
+            categorias[q.categoria] = { total: 0, acertos: 0 };
+        }
+        categorias[q.categoria].total++;
+        
+        const resposta = respostas.find(r => r && r.questaoId === q.id);
+        if (resposta && resposta.acertou) {
+            categorias[q.categoria].acertos++;
+        }
+    });
+    
+    let categoriesDetails = '';
+    for (const [categoria, dados] of Object.entries(categorias)) {
+        const percent = Math.round((dados.acertos / dados.total) * 100);
+        categoriesDetails += `${categoria}: ${dados.acertos}/${dados.total} (${percent}%)\n`;
+    }
+    
+    // Preparar o template do email
+    const templateParams = {
+        professor_name: professorSelecionado,
+        to_email: emailDestinatario,
+        score: `${acertos}/${questoes.length}`,
+        percentage: percentual,
+        date: new Date().toLocaleString(),
+        questions_details: questionsDetails,
+        categories_performance: categoriesDetails
+    };
+    
+    // Enviar o email - SUBSTITUA COM SEUS IDs REAIS
+    emailjs.send('service_zimaoug', 'template_hxc3v7d', templateParams)
+        .then(function(response) {
+            console.log('Email enviado com sucesso!', response.status, response.text);
+        }, function(error) {
+            console.log('Falha ao enviar email:', error);
+            alert('Houve um erro ao enviar os resultados por email. Você pode exportar o PDF manualmente.');
+        });
+}
+
 // Reiniciar o quiz
 function reiniciarQuiz() {
     questaoAtual = 0;
@@ -400,4 +463,31 @@ function reiniciarQuiz() {
 }
 
 // Iniciar o quiz quando a página carregar
-window.onload = iniciarQuiz;
+window.onload = function() {
+    // Mostrar seletor de professor
+    document.getElementById('btn-iniciar-quiz').addEventListener('click', function() {
+        const selectProfessor = document.getElementById('select-professor');
+        if (selectProfessor.value) {
+            professorSelecionado = selectProfessor.value;
+            
+            // Definir email do destinatário baseado no professor selecionado
+            if (professorSelecionado === "Chris") {
+                emailDestinatario = "rabingrings@gmail.com";
+            } else if (professorSelecionado === "Igor") {
+                emailDestinatario = "mauagionco@gmail.com";
+            }
+            
+            document.getElementById('professor-selector').style.display = 'none';
+            document.getElementById('progress-container').style.display = 'block';
+            document.getElementById('container-questoes').style.display = 'block';
+            iniciarQuiz();
+        } else {
+            alert('Por favor, selecione um professor para continuar.');
+        }
+    });
+
+    // Inicialmente esconder quiz e mostrar seletor
+    document.getElementById('progress-container').style.display = 'none';
+    document.getElementById('container-questoes').style.display = 'none';
+    document.getElementById('resultado').style.display = 'none';
+};

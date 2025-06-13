@@ -427,3 +427,35 @@ footer {
         flex-direction: column;
     }
 }
+
+.professor-selector {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.professor-selector h2 {
+    color: var(--color-primary);
+    margin-bottom: 20px;
+}
+
+.professor-selector select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-family: "Poppins", sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+.professor-selector select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+}
