@@ -122,10 +122,12 @@ header {
 }
 
 footer {
-    color: white;
-    text-align: right;
-    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
     background-color: var(--color-primary);
+    position: relative;
 }
 
 button {
@@ -144,13 +146,16 @@ button {
     transform: scale(1.05);
   }
 
-  .Botao{
+.Botao {
     text-align: center;
-  }
+    width: 100%; /* Ocupa toda a largura para centralizar o botão */
+}
 
 footer img {
     max-width: 100px;
-}
+    position: absolute; /* Posiciona o ícone à direita */
+    right: 20px;
+}   
 
 @media (max-width: 600px) {
     .container{

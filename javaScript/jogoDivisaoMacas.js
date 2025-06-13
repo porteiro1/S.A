@@ -1,12 +1,12 @@
 // Game state
 let totalApples = 0;
-let leftPerson = 0;
-let rightPerson = 0;
+let leftApples = 0;
+let rightApples = 0;
 let targetDivision = 0;
 
 // DOM elements
-const leftPersonPlate = document.getElementById("leftPersonPlate");
-const rightPersonPlate = document.getElementById("rightPersonPlate");
+const leftPlate = document.getElementById("leftPersonPlate");
+const rightPlate = document.getElementById("rightPersonPlate");
 const appleContainer = document.getElementById("appleContainer");
 const resultDisplay = document.getElementById("result");
 const totalApplesDisplay = document.getElementById("totalApples");
@@ -33,119 +33,109 @@ function generateTarget() {
 
 // Reinicia o jogo
 function resetGame() {
-  leftPerson = 0;
-  rightPerson = 0;
-  leftPersonPlate.innerHTML = "";
-  rightPersonPlate.innerHTML = "";
+  leftApples = 0;
+  rightApples = 0;
+  leftPlate.innerHTML = "";
+  rightPlate.innerHTML = "";
   appleContainer.innerHTML = "";
 
   updateCounters();
 
+  // Cria maçãs como elementos img (igual ao jogoSomaFacil)
   for (let i = 0; i < totalApples; i++) {
-    const apple = document.createElement("div");
-    apple.className = "apple";
-    apple.textContent = "🍎";
-    apple.style.fontSize = "30px";
-    apple.style.lineHeight = "40px";
-    apple.style.textAlign = "center";
+    const apple = document.createElement("img");
+    apple.src = "/S.A/images/apple.png";
+    apple.classList.add("apple");
     apple.draggable = true;
 
-    apple.addEventListener("dragstart", (e) => {
-      e.target.classList.add("dragging");
-    });
-
-    apple.addEventListener("dragend", (e) => {
-      e.target.classList.remove("dragging");
-    });
+    apple.addEventListener("dragstart", onDragStart);
+    apple.addEventListener("dragend", onDragEnd);
 
     appleContainer.appendChild(apple);
   }
+
+  // Configura os eventos de arrastar nos pratos
+  leftPlate.addEventListener("dragover", allowDrop);
+  leftPlate.addEventListener("drop", dropToLeftPlate);
+  rightPlate.addEventListener("dragover", allowDrop);
+  rightPlate.addEventListener("drop", dropToRightPlate);
 }
 
 // Atualiza os contadores na tela
 function updateCounters() {
-  leftCountDisplay.textContent = leftPerson;
-  rightCountDisplay.textContent = rightPerson;
+  leftCountDisplay.textContent = leftApples;
+  rightCountDisplay.textContent = rightApples;
 }
 
-// Configura eventos de drop para os pratos
-[leftPersonPlate, rightPersonPlate].forEach((plate, index) => {
-  plate.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    plate.classList.add("drag-over");
-  });
+// Evento ao começar a arrastar
+function onDragStart(e) {
+  e.target.classList.add("dragging");
+  e.dataTransfer.setData("text/plain", e.target.id);
+}
 
-  plate.addEventListener("dragleave", () => {
-    plate.classList.remove("drag-over");
-  });
+// Evento ao soltar item
+function onDragEnd(e) {
+  e.target.classList.remove("dragging");
+}
 
-  plate.addEventListener("drop", () => {
-    plate.classList.remove("drag-over");
+// Permite soltar itens nos pratos
+function allowDrop(e) {
+  e.preventDefault();
+}
 
-    const draggedApple = document.querySelector(".dragging");
-    if (draggedApple) {
-      draggedApple.remove();
+// Solta a maçã no prato esquerdo
+function dropToLeftPlate(e) {
+  e.preventDefault();
+  const apple = document.querySelector(".dragging");
 
-      const placedApple = document.createElement("div");
-      placedApple.className = "apple";
-      placedApple.textContent = "🍎";
-      placedApple.style.fontSize = "30px";
-      placedApple.style.lineHeight = "40px";
-      placedApple.style.textAlign = "center";
-
-      placedApple.addEventListener("click", () => {
-        placedApple.remove();
-        createReturnableApple();
-
-        if (index === 0) {
-          leftPerson--;
-        } else {
-          rightPerson--;
-        }
-
-        updateCounters();
-      });
-
-      plate.appendChild(placedApple);
-
-      if (index === 0) {
-        leftPerson++;
-      } else {
-        rightPerson++;
-      }
-
-      updateCounters();
-    }
-  });
-});
-
-// Cria uma maçã de volta ao container
-function createReturnableApple() {
-  const returnedApple = document.createElement("div");
-  returnedApple.className = "apple";
-  returnedApple.textContent = "🍎";
-  returnedApple.style.fontSize = "30px";
-  returnedApple.style.lineHeight = "40px";
-  returnedApple.style.textAlign = "center";
-  returnedApple.draggable = true;
-
-  returnedApple.addEventListener("dragstart", (e) => {
-    e.target.classList.add("dragging");
-  });
-
-  returnedApple.addEventListener("dragend", (e) => {
-    e.target.classList.remove("dragging");
+  if (apple) {
+    apple.remove();
     sound.play();
-  });
 
-  appleContainer.appendChild(returnedApple);
+    leftPlate.appendChild(apple);
+    leftApples++;
+
+    apple.addEventListener("click", () => removeApple(apple, leftPlate, "left"));
+    updateCounters();
+  }
+}
+
+// Solta a maçã no prato direito
+function dropToRightPlate(e) {
+  e.preventDefault();
+  const apple = document.querySelector(".dragging");
+
+  if (apple) {
+    apple.remove();
+    sound.play();
+
+    rightPlate.appendChild(apple);
+    rightApples++;
+
+    apple.addEventListener("click", () => removeApple(apple, rightPlate, "right"));
+    updateCounters();
+  }
+}
+
+// Remove a maçã de um prato e devolve ao container
+function removeApple(apple, plate, side) {
+  plate.removeChild(apple);
+  appleContainer.appendChild(apple);
+
+  if (side === "left") {
+    leftApples--;
+  } else {
+    rightApples--;
+  }
+
+  updateCounters();
 }
 
 // Verifica se a divisão está correta
 function checkResult() {
-  const distributedTotal = leftPerson + rightPerson;
-  const equallyDivided = leftPerson === rightPerson;
-  const correctResult = leftPerson === targetDivision;
+  const distributedTotal = leftApples + rightApples;
+  const equallyDivided = leftApples === rightApples;
+  const correctResult = leftApples === targetDivision;
 
   if (distributedTotal === totalApples && equallyDivided && correctResult) {
     alert("Parabéns! Você dividiu as maçãs corretamente! 🎉");
@@ -160,7 +150,7 @@ function checkResult() {
     }
 
     if (!equallyDivided) {
-      message += `\n- A distribuição não está igual (${leftPerson} e ${rightPerson} maçãs).`;
+      message += `\n- A distribuição não está igual (${leftApples} e ${rightApples} maçãs).`;
     }
 
     if (equallyDivided && distributedTotal === totalApples && !correctResult) {
@@ -169,7 +159,6 @@ function checkResult() {
 
     alert(message);
   }
-  generateTarget();
 }
 
 // Inicia o jogo
