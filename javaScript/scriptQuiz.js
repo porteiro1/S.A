@@ -472,7 +472,7 @@ window.onload = function() {
             
             // Definir email do destinatário baseado no professor selecionado
             if (professorSelecionado === "Chris") {
-                emailDestinatario = "rabingrings@gmail.com";
+                emailDestinatario = "mauagionco@gmail.com";
             } else if (professorSelecionado === "Igor") {
                 emailDestinatario = "mauagionco@gmail.com";
             }
