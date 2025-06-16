@@ -351,7 +351,7 @@ S.A/
 ## 📞 Suporte e Contato
 
 ### Canais de Suporte
-- **Email**: [email_do_projeto]
+- **Email**: Mathemaquest@gmail.com
 - **Issues**: GitHub Issues para bugs e sugestões
 
 ### Equipe de Desenvolvimento
