@@ -277,7 +277,7 @@ S.A/
 ## ♿ Acessibilidade
 
 ### Recursos Implementados
-- **Contraste**: Cores com contraste adequado (WCAG 2.1)
+- **Contraste**: Cores com contraste adequado
 - **Navegação por Teclado**: Todos os elementos são acessíveis via Tab
 - **Texto Alternativo**: Imagens com descrições apropriadas
 - **Estrutura Semântica**: HTML5 com tags semânticas corretas
@@ -313,7 +313,7 @@ S.A/
 1. **Fork** do repositório
 2. **Crie** uma branch para sua feature
 3. **Implemente** as mudanças
-4. **Teste** thoroughly
+4. **Teste** as implementações
 5. **Envie** um pull request
 
 ### Diretrizes de Código
@@ -352,18 +352,12 @@ S.A/
 
 ### Canais de Suporte
 - **Email**: [email_do_projeto]
-- **Documentação**: Este arquivo README
 - **Issues**: GitHub Issues para bugs e sugestões
 
 ### Equipe de Desenvolvimento
-- **Chris**: [Especialidade/Função]
-- **Igor**: [Especialidade/Função]
-
----
-
-## 📄 Licença
-
-Este projeto está licenciado sob [TIPO_DE_LICENÇA] - veja o arquivo LICENSE para detalhes.
+- **Danillo**: [Líderança, Design e Pesquisas / Gerência do projeto]
+- **Felipe**: [Versionamento, Documentação e Implantação / Desenvolvimento do projeto]
+- **Mauá**: [Desenvolvimento e Programação / Desenvolvimento do projeto]
 
 ---
 
