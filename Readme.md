@@ -181,7 +181,7 @@ S.A/
 1. **Download do Projeto**:
    ```bash
    # Clone o repositório
-   git clone [URL_DO_REPOSITORIO]
+   git clone https://github.com/porteiro1/S.A.git
    
    # Ou descompacte o arquivo S.A.zip
    unzip S.A.zip
