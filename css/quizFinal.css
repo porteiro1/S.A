@@ -139,6 +139,26 @@ body.tema-divisao input[type="number"]:focus {
     min-height: 100vh;
 }
 
+.creditos {
+    color: whitesmoke;
+    position: relative; /* Mudança: de absolute para relative */
+    /* Remoção da propriedade left: 20px; */
+    padding-left: 20px; /* Adicionado padding para manter o espaçamento */
+}
+
+/*trocar cor do href*/
+.creditos a:link,
+.creditos a:visited,
+.creditos a:active {
+    color: whitesmoke;
+    text-decoration: underline;
+}
+
+.creditos a:hover {
+    color: #4CAF50;
+    text-decoration: underline;
+}
+
 header {
     background-color: var(--color-primary);
     color: white;
@@ -147,6 +167,7 @@ header {
     align-items: center;
     padding: 20px;
     transition: background-color 0.3s ease;
+    flex-shrink: 0; /* Adicionado para evitar que o header encolha */
 }
 
 .logo {
@@ -179,6 +200,7 @@ main {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    min-height: 0; /* Adicionado para permitir que o main seja comprimido se necessário */
 }
 
 .progress-container {
@@ -402,11 +424,15 @@ button:disabled {
 
 footer {
     color: white;
-    text-align: right;
+    display: flex;
+    justify-content: flex-start; /* Mudança: de text-align para justify-content */
+    align-items: center; /* Adicionado para centralizar verticalmente */
     padding: 15px;
     background-color: var(--color-primary);
     margin-top: auto;
     transition: background-color 0.3s ease;
+    flex-shrink: 0; /* Adicionado para evitar que o footer encolha */
+    width: 100%; /* Garantir que o footer ocupe toda a largura */
 }
 
 .resumo-header {
@@ -425,6 +451,16 @@ footer {
     
     .resultado-actions {
         flex-direction: column;
+    }
+    
+    /* Ajustes adicionais para mobile */
+    main {
+        padding: 10px;
+    }
+    
+    .creditos {
+        padding-left: 10px;
+        font-size: 14px;
     }
 }
 

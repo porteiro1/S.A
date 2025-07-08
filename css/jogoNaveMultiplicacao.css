@@ -15,6 +15,27 @@
     letter-spacing: 3px;
   }
 
+  .creditos {
+    color: whitesmoke;
+    position: absolute;
+    left: 20px;
+
+}
+
+/*trocar cor do href*/
+.creditos a:link,
+.creditos a:visited,
+.creditos a:active {
+    color: whitesmoke;
+    text-decoration: underline;
+}
+
+.creditos a:hover {
+    color: #4CAF50;
+    text-decoration: underline;
+}
+
+
   .container {
     display: flex;
     flex-direction: column;

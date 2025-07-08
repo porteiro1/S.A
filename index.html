@@ -1,61 +1,60 @@
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mathema Quest</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mathema Quest</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <div class="logo"> Mathema Quest</div>
-            <div class="user-section">
-                <span class="greeting">Olá Estudante!</span>
-                <div class="user-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                </div>
-            </div>
-        </header>
+  <div class="container">
+    <header>
+      <div class="logo"> Mathema Quest</div>
+      <div class="user-section">
+        <span class="greeting">Olá Estudante!</span>
+        <div class="user-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+      </div>
+    </header>
 
-        <main class="operations-grid">
-            <div class="operation soma" onclick="navegateTo('explicacao/explicacaoSoma.html')">
-                <div class="operation-icon">+</div>
-                <span>Soma</span>
-            </div>
-            <div class="operation subtracao" onclick="navegateTo('explicacao/explicacaoSubtracao.html')">
-                <div class="operation-icon">-</div>
-                <span>Subtração</span>
-            </div>
-            <div class="operation multiplicacao" onclick="navegateTo('explicacao/explicacaoMultiplicacao.html')">
-                <div class="operation-icon">×</div>
-                <span>Multiplicação</span>
-            </div>
-            <div class="operation divisao" onclick="navegateTo('explicacao/explicacaoDivisao.html')">
-                <div class="operation-icon">÷</div>
-                <span>Divisão</span>
-            </div>
-        </main>
+    <main class="operations-grid">
+      <div class="operation soma" onclick="navegateTo('explicacao/explicacaoSoma.html')">
+        <div class="operation-icon">+</div>
+        <span>Soma</span>
+      </div>
+      <div class="operation subtracao" onclick="navegateTo('explicacao/explicacaoSubtracao.html')">
+        <div class="operation-icon">-</div>
+        <span>Subtração</span>
+      </div>
+      <div class="operation multiplicacao" onclick="navegateTo('explicacao/explicacaoMultiplicacao.html')">
+        <div class="operation-icon">×</div>
+        <span>Multiplicação</span>
+      </div>
+      <div class="operation divisao" onclick="navegateTo('explicacao/explicacaoDivisao.html')">
+        <div class="operation-icon">÷</div>
+        <span>Divisão</span>
+      </div>
+    </main>
 
-        <footer>
-            <div class="Botao">
-                <button onclick="navegateTo('quizFinal/quiz.html')">Quiz Final</button>
-            </div>
-            <div class="creditos">
+    
+  </div>
+  <script src="javaScript/navegate.js"></script>
+</body>
+<footer>
+      <div class="creditos">
                 <span>Desenvolvido por: <a href="https://github.com/FlipSkateHd" target="_blank">Felipe Nogueira</a>, <a
                         href="https://github.com/Danillosemideia" target="_blank">Danillo Medeiros</a> e <a
                         href="https://github.com/porteiro1" target="_blank">Mauá Giunco</a></span>
             </div>
-            <img src="images/sesiIcon.png" alt="escola sesi icone">
-        </footer>
-    </div>
-    <script src="javaScript/navegate.js"></script>
-</body>
-
+      <div class="Botao">
+        <button onclick="navegateTo('quizFinal/quiz.html')">Quiz Final</button>
+      </div>
+      <img src="images/sesiIcon.png" alt="escola sesi icone">
+    </footer>
 </html>
