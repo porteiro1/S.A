@@ -13,6 +13,26 @@
     box-sizing: border-box;
 }
 
+.creditos {
+    color: whitesmoke;
+    position: absolute;
+    left: 20px;
+
+}
+
+/*trocar cor do href*/
+.creditos a:link,
+.creditos a:visited,
+.creditos a:active {
+    color: whitesmoke;
+    text-decoration: underline;
+}
+
+.creditos a:hover {
+    color: #4CAF50;
+    text-decoration: underline;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     letter-spacing: 3px;
@@ -130,6 +150,7 @@ footer {
     position: relative;
 }
 
+
 button {
     height: 5em;
     background-color: #2196F3;
@@ -140,37 +161,39 @@ button {
     padding: 10px 20px;
     cursor: pointer;
     margin-bottom: 5px;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     transform: scale(1.05);
-  }
+}
 
 .Botao {
     text-align: center;
-    width: 100%; /* Ocupa toda a largura para centralizar o botão */
+    width: 100%;
+    /* Ocupa toda a largura para centralizar o botão */
 }
 
 footer img {
     max-width: 100px;
-    position: absolute; /* Posiciona o ícone à direita */
+    position: absolute;
+    /* Posiciona o ícone à direita */
     right: 20px;
-}   
+}
 
 @media (max-width: 600px) {
-    .container{
-        width:100%;
+    .container {
+        width: 100%;
         border-radius: 0;
 
     }
 
     .operations-grid {
         grid-template-columns: 1fr;
-        gap:15px;
+        gap: 15px;
         padding: 20px;
     }
 
-    .operation{
+    .operation {
         height: 150px;
     }
 }
